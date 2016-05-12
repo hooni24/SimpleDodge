@@ -115,12 +115,12 @@ public class GUI extends JFrame implements Runnable{
 			thList.add(fireBallThread);
 		}
 		
-		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
-		wind.setBounds(0, 0, 1000, 800);
-		lp.add(wind, new Integer(3));
-		Thread windThread = new Thread(wind);
-		windThread.start();
-		thList.add(windThread);
+//		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
+//		wind.setBounds(0, 0, 1000, 800);
+//		lp.add(wind, new Integer(3));
+//		Thread windThread = new Thread(wind);
+//		windThread.start();
+//		thList.add(windThread);
 	}//ghostGame()
 	
 	private void birdGame() {
@@ -140,12 +140,12 @@ public class GUI extends JFrame implements Runnable{
 			thList.add(fireBallThread);
 		}
 		
-		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
-		wind.setBounds(0, 0, 1000, 800);
-		lp.add(wind, new Integer(3));
-		Thread windThread = new Thread(wind);
-		windThread.start();
-		thList.add(windThread);
+//		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
+//		wind.setBounds(0, 0, 1000, 800);
+//		lp.add(wind, new Integer(3));
+//		Thread windThread = new Thread(wind);
+//		windThread.start();
+//		thList.add(windThread);
 		
 	}//birdGame()
 }//class

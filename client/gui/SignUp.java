@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -43,7 +42,7 @@ public class SignUp extends JDialog implements ActionListener{
 		lbl_id = new JLabel("ID");
 		tf_id = new JTextField(10);
 		lbl_pw = new JLabel("PW");
-		tf_pw = new JTextField(10);
+		tf_pw = new JPasswordField(10);
 		tf_pw.addActionListener(this);
 		
 		btn_signUp = new JButton("회원가입");

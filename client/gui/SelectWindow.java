@@ -1,4 +1,4 @@
-package game.gui;
+package client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,26 +11,45 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.SystemColor;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
 
 public class SelectWindow extends JFrame implements ActionListener, KeyListener{
+	private static final long serialVersionUID = -3459467354956808841L;
 	private JButton btn_ghost, btn_bird;
 	public BufferedImage bi_ghost, bi_bird;
 	private File file_ghost, file_bird;
 	private JPanel p_characters, p_ghost, p_bird;
+	private Socket client;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+	private String id;
 	
 	public SelectWindow() {
+		try {
+			client = new Socket("localhost", 7979);
+			oos = new ObjectOutputStream(client.getOutputStream());
+			ois = new ObjectInputStream(client.getInputStream());
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		drawUI();
+	}
+	
+	public void drawUI(){
 		setTitle("Select Character");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 230);
@@ -40,22 +59,37 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		ghostMenu();
 		birdMenu();
 		
+		setLocationRelativeTo(null);
+		
 		getContentPane().add(p_characters);
 		setVisible(true);
+		new LoginGUI(this, ois, oos);
 	}
 	
 	
-	
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public void ghostMenu(){
 		p_ghost = new JPanel();
 		p_ghost.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_ghost.setLayout(new BorderLayout());
+//		eclipse 버전
 		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.png");
+		
+//		jar 버전
+//		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.png");
+		
 		try {
 			bi_ghost = ImageIO.read(file_ghost);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
+			System.exit(0);
+		}
 		
 		class p_ghostImg extends JComponent{
+			private static final long serialVersionUID = 5268273211264080430L;
 			public void paint(Graphics g){
 				g.drawImage(bi_ghost, 0, 0, null);
 			}
@@ -80,12 +114,21 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_bird = new JPanel();
 		p_bird.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_bird.setLayout(new BorderLayout());
+//		eclipse 버전
 		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.png");
+		
+//		jar 버전
+//		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.png");
+		
 		try {
 			bi_bird = ImageIO.read(file_bird);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
+			System.exit(0);
+		}
 		
 		class p_birdImg extends JComponent{
+			private static final long serialVersionUID = -1631606650281790076L;
 			public void paint(Graphics g){
 				g.drawImage(bi_bird, 0, 0, null);
 			}
@@ -106,21 +149,16 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_characters.add(p_bird);
 	}
 
-	public static void main(String[] args) {
-		new SelectWindow();
-	}
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
 		if(source == btn_ghost){
 			dispose();
-			new GUI("Ghost");
+			new GUI("Ghost", id, ois, oos);
 		}else if(source == btn_bird){
 			dispose();
-			new GUI("Bird");
+			new GUI("Bird", id, ois, oos);
 		}
 	}//actionPerformed()
 

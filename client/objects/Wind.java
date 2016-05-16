@@ -1,4 +1,4 @@
-package game.objects;
+package client.objects;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 public class Wind extends JComponent implements Runnable{
 	BufferedImage windImg;
@@ -18,14 +19,21 @@ public class Wind extends JComponent implements Runnable{
 		try {
 			while(true){
 				for(int i = 1; i < 31; i++){
-						windFile = new File("C:/java/Data/Dodge/Wind/Wind (" + i + ").png");
+
+//					eclipse 버전
+					windFile = new File("C:/java/Data/Dodge/Wind/Wind (" + i + ").png");
+					
+//					jar 버전
+//					windFile = new File("./Dodge/Wind/Wind (" + i + ").png");
+					
 						windImg = ImageIO.read(windFile);
 						repaint();
 						Thread.sleep(30);
 				}//for
 			}//while
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
+			System.exit(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

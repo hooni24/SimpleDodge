@@ -1,4 +1,4 @@
-package game.character;
+package client.character;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -9,8 +9,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Ghost extends Character implements KeyListener, Runnable{
+	private static final long serialVersionUID = 110053655388678225L;
 	private BufferedImage ghostImg;
 	private boolean up, down, left, right;							//keylistener에서 사용하는 불리언 변수들
 	
@@ -21,13 +23,6 @@ public class Ghost extends Character implements KeyListener, Runnable{
 		addKeyListener(this);
 		setVisible(true);
 	}
-	
-//	public int getGhost_x() {
-//		return Character.char_x;
-//	}
-//	public int getGhost_y() {
-//		return Character.char_y;
-//	}
 	
 	public void paintComponent(Graphics g){							//wolf의 x,y좌표에 그림. repaint시 갱신된 x,y 참조 
 		super.paintComponent(g);
@@ -80,14 +75,26 @@ public class Ghost extends Character implements KeyListener, Runnable{
 	public void run() {												
 		while(true){
 				try {		//방향 이동에 따라 캐릭터 이미지 변화
+					
+//					jar 파일 만들 때 경로 : 
+//					if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.png"));
+//					if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.png"));
+//					if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.png"));
+//					if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.png"));
+//					if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.png"));
+//					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+					
+//					eclipse에서 경로 : 
 					if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.png"));
 					if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.png"));
 					if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.png"));
 					if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.png"));
 					if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.png"));
 					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+					
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
+					System.exit(0);
 				}
 			
 			if(up && Character.char_y > 0) Character.char_y -= 10;						//17밀리세컨드(약 60fps)로 돌면서 불리언을 확인하고, true일시 그 방향으로 이동  

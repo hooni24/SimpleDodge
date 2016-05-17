@@ -77,20 +77,20 @@ public class Ghost extends Character implements KeyListener, Runnable{
 				try {		//방향 이동에 따라 캐릭터 이미지 변화
 					
 //					jar 파일 만들 때 경로 : 
-//					if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.png"));
-//					if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.png"));
-//					if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.png"));
-//					if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.png"));
-//					if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.png"));
-//					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+					if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.png"));
+					if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.png"));
+					if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.png"));
+					if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.png"));
+					if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.png"));
+					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
 					
 //					eclipse에서 경로 : 
-					if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.png"));
-					if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.png"));
-					if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.png"));
-					if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.png"));
-					if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.png"));
-					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+//					if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.png"));
+//					if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.png"));
+//					if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.png"));
+//					if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.png"));
+//					if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.png"));
+//					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
 					
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");

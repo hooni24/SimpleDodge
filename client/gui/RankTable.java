@@ -45,7 +45,6 @@ public class RankTable extends JFrame {
 		drawFrame();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void drawFrame(){
 		setTitle("Ranking Board");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

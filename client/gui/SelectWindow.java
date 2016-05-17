@@ -41,7 +41,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 	
 	public SelectWindow() {
 		try {
-			client = new Socket("localhost", 7979);
+//			jar버전 데스크탑 아이피
+			client = new Socket("203.233.196.232", 7979);
+//			eclipse 버전 로컬호스트
+//			client = new Socket("localhost", 7979);
 			oos = new ObjectOutputStream(client.getOutputStream());
 			ois = new ObjectInputStream(client.getInputStream());
 			
@@ -87,10 +90,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_ghost.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_ghost.setLayout(new BorderLayout());
 //		eclipse 버전
-		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.png");
+//		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.png");
 		
 //		jar 버전
-//		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.png");
+		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.png");
 		
 		try {
 			bi_ghost = ImageIO.read(file_ghost);
@@ -131,10 +134,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_bird.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_bird.setLayout(new BorderLayout());
 //		eclipse 버전
-		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.png");
+//		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.png");
 		
 //		jar 버전
-//		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.png");
+		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.png");
 		
 		try {
 			bi_bird = ImageIO.read(file_bird);

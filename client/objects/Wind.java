@@ -32,10 +32,10 @@ public class Wind extends JComponent implements Runnable{
 			while(true){
 				for(int i = 1; i < 31; i++){
 //					eclipse 버전
-					windFile = new File("C:/java/Data/Dodge/Wind/Wind (" + i + ").png");
+//					windFile = new File("C:/java/Data/Dodge/Wind/Wind (" + i + ").png");
 					
 //					jar 버전
-//					windFile = new File("./Dodge/Wind/Wind (" + i + ").png");
+					windFile = new File("./Dodge/Wind/Wind (" + i + ").png");
 					
 						windImg = ImageIO.read(windFile);
 						repaint();

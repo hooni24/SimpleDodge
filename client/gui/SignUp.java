@@ -63,38 +63,48 @@ public class SignUp extends JDialog implements ActionListener{
 				dispose();
 			}
 		});
-		
 		setVisible(true);
-		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		
 		if(source == btn_signUp || source == tf_pw){
 			if(!tf_id.getText().equals("") && !tf_pw.getText().equals("")){
 				if(tf_id.getText().length() <= 8 && tf_pw.getText().length() <= 8 && !tf_id.getText().contains(" ")){
-					TransData data = new TransData();
-					data.setCommand(TransData.SIGN_UP);
-					data.setId(tf_id.getText());
-					data.setPw(tf_pw.getText());
-					try {
-						oos.writeObject(data);
-						boolean result = (boolean) ois.readObject();
-						if(result){
-							JOptionPane.showMessageDialog(this, "가입 성공!");
-							dispose();
-						}else {
-							JOptionPane.showMessageDialog(this, "이미 존재하는 ID입니다...");
+					char[] idChar = tf_id.getText().toCharArray();
+					boolean isEnglish = true;
+					int a;
+					for(int i = 0; i < idChar.length; i++){
+						a = (int) idChar[i];
+						if(!(a>=48 && a<=59 || a>=65 && a<=90 || a>=97 && a<=122)){
+							isEnglish = false;
 						}
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
+					}
+					if(isEnglish){
+						TransData data = new TransData();
+						data.setCommand(TransData.SIGN_UP);
+						data.setId(tf_id.getText());
+						data.setPw(tf_pw.getText());
+						try {
+							oos.writeObject(data);
+							boolean result = (boolean) ois.readObject();
+							if(result){
+								JOptionPane.showMessageDialog(this, "가입 성공!");
+								dispose();
+							}else {
+								JOptionPane.showMessageDialog(this, "이미 존재하는 ID입니다...");
+							}
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						}
+					}else {
+						JOptionPane.showMessageDialog(this, "ID는 숫자나 영문자만 가능합니다.");
 					}
 				}else {
-					JOptionPane.showMessageDialog(this, "ID와 PW는 8글자 이하여야 합니다. 대신 특수문자 등등 맘대로 써두 됌\n아 그리고 ID에는 공백안됌");
+					JOptionPane.showMessageDialog(this, "ID와 PW는 8글자 이하여야 합니다.\n아 그리고 ID에는 공백안됌");
 				}
 			}else {
 				JOptionPane.showMessageDialog(this, "ID,PW를 정확히 입력하세요");

@@ -75,9 +75,17 @@ public class ServerGUI extends JFrame implements ActionListener{
 	private ObjectOutputStream oos_rank;
 	private ObjectInputStream ois_char;
 	private ObjectOutputStream oos_char;
-	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
-	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
-	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
+
+//		eclipse 버전
+//	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
+//	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
+//	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
+
+//		jar 버전
+	private File file_user = new File("./Dodge/SaveFiles/UserData.ser");
+	private File file_rank = new File("./Dodge/SaveFiles/RankData.ser");
+	private File file_char = new File("./Dodge/SaveFiles/CharData.ser");
+	
 	public static HashMap<String, String> accountMap = new HashMap<>();			//ID / PW
 	public static HashMap<String, Double> ranking = new HashMap<>();			//ID / 최고 기록
 	public static HashMap<String, String> characterMap = new HashMap<>();		//ID / 최근 플레이캐릭터
@@ -437,15 +445,18 @@ public class ServerGUI extends JFrame implements ActionListener{
 						int select = JOptionPane.showConfirmDialog(this, list_user.getSelectedValue() + "님을 탈퇴시키겠습니까?", "Kick", JOptionPane.OK_CANCEL_OPTION);
 						if(select == JOptionPane.OK_OPTION){
 							accountMap.remove(list_user.getSelectedValue());
-							ranking.remove(list_user.getSelectedValue());			//여기에 나중에 랭킹 리스트도 리프레시 해 줘야 함
+							ranking.remove(list_user.getSelectedValue());
+							characterMap.remove(list_user.getSelectedValue());
 							model_user.clear();
 							Set<String> idSet = accountMap.keySet();
 							for (String id : idSet) {
 								model_user.addElement(id);
 							}
 							userSetModel(model_user);
+							rankSetModel(ranking, characterMap);
 							saveUserData();
 							saveRankData();
+							saveCharData();
 						}
 					}
 				}

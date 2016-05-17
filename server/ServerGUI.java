@@ -73,16 +73,26 @@ public class ServerGUI extends JFrame implements ActionListener{
 	private ObjectOutputStream oos_user;
 	private ObjectInputStream ois_rank;
 	private ObjectOutputStream oos_rank;
+	private ObjectInputStream ois_char;
+	private ObjectOutputStream oos_char;
 	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
 	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
-	public static HashMap<String, String> accountMap = new HashMap<>();
-	public static HashMap<String, Double> ranking = new HashMap<>();
+	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
+	public static HashMap<String, String> accountMap = new HashMap<>();			//ID / PW
+	public static HashMap<String, Double> ranking = new HashMap<>();			//ID / 최고 기록
+	public static HashMap<String, String> characterMap = new HashMap<>();		//ID / 최근 플레이캐릭터
 	private JTable table_rank;
-	private Object[][] table_model = new Object[10][3];
+	private Object[][] table_model = new Object[10][4];
+	private DefaultTableModel modelT;
+	private JPanel panel;
+	private JLabel label;
+	private JLabel label_1;
+	private String[] columnNames;
 	
 
 
 	public ServerGUI() {
+		setResizable(false);
 		getContentPane().setBackground(SystemColor.desktop);
 		if(file_user.exists()){
 			accountMap = loadUserData();
@@ -93,6 +103,12 @@ public class ServerGUI extends JFrame implements ActionListener{
 			ranking = loadRankData();
 		}else {
 			saveRankData();
+		}
+		if(file_char.exists()){
+			characterMap = loadCharData();
+			System.out.println(characterMap);
+		}else {
+			saveCharData();
 		}
 		drawGUI();
 		serverOpen();
@@ -114,13 +130,33 @@ public class ServerGUI extends JFrame implements ActionListener{
 		lbl_console.setForeground(new Color(51, 255, 51));
 		lbl_console.setFont(new Font("Arial Narrow", Font.BOLD | Font.ITALIC, 12));
 		contentPane.add(lbl_console, BorderLayout.NORTH);
+
+		for(int i = 0; i < 10; i++){
+				table_model[i][0] = i+1;
+		}
+		
+		columnNames = new String[] {"순위", "ID", "기록", "캐릭터"};
+		
+		modelT = new DefaultTableModel(table_model, columnNames);
+		
+		lbl_rank = new JLabel("\u25B2 \u25B2 \u25B2 RANKING \u25B2 \u25B2 \u25B2            ");
+		lbl_rank.setVerticalAlignment(SwingConstants.TOP);
+		lbl_rank.setForeground(new Color(51, 255, 255));
+		lbl_rank.setFont(new Font("Arial Narrow", Font.BOLD | Font.ITALIC, 12));
+		lbl_rank.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbl_rank.setPreferredSize(new Dimension(200, 20));
+		contentPane.add(lbl_rank, BorderLayout.SOUTH);
+		
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
 		
 		p_left = new JPanel();
+		panel.add(p_left, BorderLayout.WEST);
 		FlowLayout flowLayout = (FlowLayout) p_left.getLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		p_left.setBackground(new Color(51, 51, 51));
-		contentPane.add(p_left, BorderLayout.WEST);
 		
 		sp_left = new JScrollPane();
 		sp_left.setBorder(new LineBorder(UIManager.getColor("SplitPaneDivider.draggingColor")));
@@ -131,15 +167,22 @@ public class ServerGUI extends JFrame implements ActionListener{
 		ta_left = new JTextArea();
 		ta_left.setForeground(UIManager.getColor("TabbedPane.highlight"));
 		ta_left.setBackground(new Color(51, 51, 51));
+		ta_left.setLineWrap(true);
 		sp_left.setViewportView(ta_left);
 		
+		label = new JLabel("");
+		panel.add(label);
+		
+		label_1 = new JLabel("");
+		panel.add(label_1);
+		
 		p_center = new JPanel();
+		panel.add(p_center, BorderLayout.CENTER);
 		FlowLayout flowLayout_1 = (FlowLayout) p_center.getLayout();
 		flowLayout_1.setVgap(0);
 		flowLayout_1.setHgap(0);
 		p_center.setForeground(new Color(255, 255, 255));
 		p_center.setBackground(new Color(51, 51, 51));
-		contentPane.add(p_center, BorderLayout.CENTER);
 		
 		lbl_user = new JLabel("*  *  *  *  *  LOGIN USER  *  *  *  *  *");
 		lbl_user.setHorizontalAlignment(SwingConstants.CENTER);
@@ -175,57 +218,40 @@ public class ServerGUI extends JFrame implements ActionListener{
 		popupMenu.add(mi_record);
 		
 		p_right = new JPanel();
+		panel.add(p_right, BorderLayout.EAST);
 		FlowLayout flowLayout_2 = (FlowLayout) p_right.getLayout();
 		flowLayout_2.setVgap(0);
 		flowLayout_2.setHgap(0);
 		p_right.setForeground(new Color(255, 255, 255));
 		p_right.setBackground(new Color(51, 51, 51));
-		contentPane.add(p_right, BorderLayout.EAST);
 		
 		sp_right = new JScrollPane();
 		sp_right.setBorder(new LineBorder(UIManager.getColor("SplitPaneDivider.draggingColor")));
 		sp_right.setBackground(new Color(51, 51, 51));
 		sp_right.setPreferredSize(new Dimension(238, 388));
 		p_right.add(sp_right);
-
-		for(int i = 0; i < 10; i++){
-				table_model[i][0] = i+1;
-		}
 		
 		table_rank = new JTable();
+		table_rank.setEnabled(false);
 		table_rank.setFillsViewportHeight(true);
 		table_rank.setFont(new Font("Arial Narrow", Font.PLAIN, 15));
 		table_rank.setForeground(Color.WHITE);
 		table_rank.setBackground(Color.DARK_GRAY);
 		table_rank.setRequestFocusEnabled(false);
 		table_rank.setRowHeight(36);
-		table_rank.setModel(new DefaultTableModel(table_model, new String[] {"순위", "ID", "버틴 시간"}) {
-			private static final long serialVersionUID = 3856238676296868388L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		table_rank.setModel(modelT);
 		table_rank.getColumnModel().getColumn(0).setResizable(false);
 		table_rank.getColumnModel().getColumn(0).setPreferredWidth(35);
 		table_rank.getColumnModel().getColumn(1).setResizable(false);
 		table_rank.getColumnModel().getColumn(1).setPreferredWidth(107);
 		table_rank.getColumnModel().getColumn(2).setResizable(false);
-		table_rank.getColumnModel().getColumn(2).setPreferredWidth(70);
+		table_rank.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table_rank.getColumnModel().getColumn(3).setResizable(false);
+		table_rank.getColumnModel().getColumn(3).setPreferredWidth(50);
 		sp_right.setViewportView(table_rank);
 		
-		lbl_rank = new JLabel("\u25B2 \u25B2 \u25B2 RANKING \u25B2 \u25B2 \u25B2            ");
-		lbl_rank.setVerticalAlignment(SwingConstants.TOP);
-		lbl_rank.setForeground(new Color(51, 255, 255));
-		lbl_rank.setFont(new Font("Arial Narrow", Font.BOLD | Font.ITALIC, 12));
-		lbl_rank.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbl_rank.setPreferredSize(new Dimension(200, 20));
-		contentPane.add(lbl_rank, BorderLayout.SOUTH);
-		
 		model_user = new DefaultListModel<>();
-		rankSetModel(ranking);
+		rankSetModel(ranking, characterMap);
 		
 		setVisible(true);
 	}
@@ -251,35 +277,31 @@ public class ServerGUI extends JFrame implements ActionListener{
 		list_user.setModel(model);
 	}
 	
-	public void rankSetModel(HashMap<String, Double> ranking){
-		Object[] idSet = ranking.keySet().toArray();
+	public void rankSetModel(HashMap<String, Double> ranking, HashMap<String, String> characterType){
+		Object[] idSet = ranking.keySet().toArray();				//id랑 기록 묶인 맵
 		ArrayList<Double> scoreList = new ArrayList<>();
-		for(int i = 0; i < idSet.length; i++){
+		for(int i = 0; i < idSet.length; i++){						//id에 묶인 밸류인 기록을 어레이리스트화 시킴
 			scoreList.add(ranking.get(idSet[i]));
-			if(i == 9) break;
+			if(i == 9) break;										//10개만..
 		}
-		
-		for(int i = 0; i < idSet.length; i++){
+		for(int i = 0; i < idSet.length; i++){						//10개 테이블모델에 세팅 함.
 			table_model[i][1] = idSet[i];
 			table_model[i][2] = scoreList.get(i);
 			if(i == 9) break;
 		}
 		
-		table_rank.setModel(new DefaultTableModel(table_model, new String[] {"순위", "ID", "버틴 시간"}) {
-			private static final long serialVersionUID = 3856238676296868388L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table_rank.getColumnModel().getColumn(0).setResizable(false);
-		table_rank.getColumnModel().getColumn(0).setPreferredWidth(35);
-		table_rank.getColumnModel().getColumn(1).setResizable(false);
-		table_rank.getColumnModel().getColumn(1).setPreferredWidth(107);
-		table_rank.getColumnModel().getColumn(2).setResizable(false);
-		table_rank.getColumnModel().getColumn(2).setPreferredWidth(70);
+		Object[] charSet = characterType.keySet().toArray();			//id랑 플레이한 캐릭터 묶인 맵 (이하 로직은 id랑 기록 저장하는거랑 같음)
+		ArrayList<String> charList = new ArrayList<>();
+		for(int i = 0; i < charSet.length; i++){
+			charList.add(characterType.get(charSet[i]));
+			if(i == 9) break;
+		}
+		for(int i = 0; i < charList.size(); i++){
+			table_model[i][3] = charList.get(i);
+			if(i == 9) break;
+		}
+		modelT.setDataVector(table_model, columnNames);
+		table_rank.setModel(modelT);								//세팅끝난 모델을 테이블에 적용시킴
 	}
 	
 	public String getTime(){
@@ -324,6 +346,21 @@ public class ServerGUI extends JFrame implements ActionListener{
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public HashMap<String, String> loadCharData(){
+		HashMap<String, String> result = null;
+		try {
+			ois_char = new ObjectInputStream(new FileInputStream(file_char));
+			result = (HashMap<String, String>) ois_char.readObject();
+			ois_char.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public void saveRankData(){
 		try {
 			oos_rank = new ObjectOutputStream(new FileOutputStream(file_rank));
@@ -339,6 +376,16 @@ public class ServerGUI extends JFrame implements ActionListener{
 			oos_user = new ObjectOutputStream(new FileOutputStream(file_user));
 			oos_user.writeObject(accountMap);
 			oos_user.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveCharData(){
+		try {
+			oos_char = new ObjectOutputStream(new FileOutputStream(file_char));
+			oos_char.writeObject(characterMap);
+			oos_char.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

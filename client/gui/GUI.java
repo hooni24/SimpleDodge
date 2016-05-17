@@ -32,6 +32,7 @@ public class GUI extends JFrame implements Runnable{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private String id;
+	private String characterType;
 	public static long startTime;
 	
 	public void setLife(int life) {
@@ -56,8 +57,10 @@ public class GUI extends JFrame implements Runnable{
 		
 		switch(type){
 			case "Ghost":
+				characterType = "Ghost";
 				ghostGame();	break;
 			case "Bird":
+				characterType = "Bird";
 				birdGame();		break;
 		}
 
@@ -119,9 +122,10 @@ public class GUI extends JFrame implements Runnable{
 			if(getLife() < 1){							//라이프 끝나면 프로그램 종료, 버틴 시간 표시 (data에 포장해서 서버로 점수 전송)
 				String[] a = getResult().split(" ");
 				TransData data = new TransData();
-				data.setCommand(TransData.HI_SCORE);
+				data.setCommand(TransData.GAME_OVER);
 				data.setHiScore(Double.parseDouble(a[1]));
 				data.setId(id);
+				data.setCharacterType(characterType);
 				try {
 					oos.writeObject(data);
 				} catch (IOException e) {

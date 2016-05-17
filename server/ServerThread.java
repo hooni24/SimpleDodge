@@ -38,22 +38,25 @@ public class ServerThread implements Runnable{
 			try {
 				TransData data = (TransData) ois.readObject();
 				switch(data.getCommand()){
-				case TransData.HI_SCORE:
+				case TransData.GAME_OVER:
 					gui.appendMsg(id + "님의 방금 기록 : " + data.getHiScore());
 					if(ServerGUI.ranking.containsKey(data.getId())){						// 랭킹에 등록된 유저인가?
 						if(ServerGUI.ranking.get(data.getId()) < data.getHiScore()){		// 등록된 유저 이면서 방금 들어온 버틴시간이 더 큰가 ? 
 							ServerGUI.ranking.put(data.getId(), data.getHiScore());		// 그렇다면 점수 갱신.
-							gui.appendMsg(id + "님의 개인기록 경신! :" + data.getHiScore());
-							gui.rankSetModel(ServerGUI.ranking);
+							ServerGUI.characterMap.put(data.getId(), data.getCharacterType());
+							gui.appendMsg(id + "님의 개인기록 경신! :" + data.getHiScore() + " with " + data.getCharacterType());
+							gui.rankSetModel(ServerGUI.ranking, ServerGUI.characterMap);
 						}
 					}else {
 						ServerGUI.ranking.put(data.getId(), data.getHiScore());
-						gui.appendMsg(id + "님의 최초 기록 등록! :" + data.getHiScore());
-						gui.rankSetModel(ServerGUI.ranking);
+						ServerGUI.characterMap.put(data.getId(), data.getCharacterType());
+						gui.appendMsg(id + "님의 최초 기록 등록! :" + data.getHiScore() + " with " + data.getCharacterType());
+						gui.rankSetModel(ServerGUI.ranking, ServerGUI.characterMap);
 					}
 					gui.saveRankData();
+					gui.saveCharData();
 					break;
-				case TransData.ACCOUNT_CHECK:
+				case TransData.TRY_LOG_IN:
 					String value = ServerGUI.accountMap.get(data.getId());
 					if(value != null){
 						if(value.equals(data.getPw())){
@@ -85,7 +88,9 @@ public class ServerThread implements Runnable{
 					}
 					break;
 				case TransData.TABLE_REFRESH:
-					oos.writeObject(ServerGUI.ranking);
+					data.setCharData(ServerGUI.characterMap);
+					data.setRankingData(ServerGUI.ranking);
+					oos.writeObject(data);
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

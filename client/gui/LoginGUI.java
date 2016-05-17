@@ -74,7 +74,7 @@ public class LoginGUI extends JDialog implements ActionListener{
 		if(source == btn_ok || source == tf_pw){
 			//id/pw체크 한 다음에 로그인 시도.
 			TransData data = new TransData();
-			data.setCommand(TransData.ACCOUNT_CHECK);
+			data.setCommand(TransData.TRY_LOG_IN);
 			data.setId(tf_id.getText());
 			data.setPw(tf_pw.getText());
 			

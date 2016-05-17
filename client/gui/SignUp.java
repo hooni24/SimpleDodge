@@ -20,9 +20,9 @@ import javax.swing.JTextField;
 import common.TransData;
 
 public class SignUp extends JDialog implements ActionListener{
+	private static final long serialVersionUID = -3291434890544364721L;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
-	private LoginGUI loginGUI;
 	private JLabel lbl_id;
 	private JTextField tf_id;
 	private JLabel lbl_pw;
@@ -32,9 +32,9 @@ public class SignUp extends JDialog implements ActionListener{
 	
 	public SignUp(LoginGUI loginGUI, ObjectInputStream ois, ObjectOutputStream oos) {
 		super(loginGUI, "SingUp", true);
-		this.oos = oos; this.ois = ois; this.loginGUI = loginGUI;
+		this.oos = oos; this.ois = ois;
 		
-		setSize(300, 100);
+		setSize(350, 150);
 		setLayout(new FlowLayout());
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(loginGUI);

@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class Wind extends JComponent implements Runnable{
+	private static final long serialVersionUID = -7049669062398453892L;
 	BufferedImage windImg;
 	File windFile;
 	int wind_x, wind_y;

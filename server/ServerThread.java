@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.DefaultListModel;
 
@@ -14,13 +13,13 @@ import common.TransData;
 public class ServerThread implements Runnable{
 	private Socket client;
 	private static ArrayList<ServerThread> thList = new ArrayList<>();
-	private static ArrayList<String> currentConnectedUser = new ArrayList<>();
+	public static ArrayList<String> currentConnectedUser = new ArrayList<>();
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private ServerGUI gui;
 	private String id;
 	private boolean runLoop;
-	private DefaultListModel model = new DefaultListModel<>();
+	private DefaultListModel<Object> model_user = new DefaultListModel<>();
 
 	public ServerThread(Socket client, ServerGUI gui) {
 		this.client = client;	this.gui = gui;
@@ -45,13 +44,12 @@ public class ServerThread implements Runnable{
 						if(ServerGUI.ranking.get(data.getId()) < data.getHiScore()){		// 등록된 유저 이면서 방금 들어온 버틴시간이 더 큰가 ? 
 							ServerGUI.ranking.put(data.getId(), data.getHiScore());		// 그렇다면 점수 갱신.
 							gui.appendMsg(id + "님의 개인기록 경신! :" + data.getHiScore());
-							model.clear();
-							
-							//////////////////////////////////////////////	여기에 랭킹 순서 정렬해서 붙이기
-							
+							gui.rankSetModel(ServerGUI.ranking);
 						}
 					}else {
-						ServerGUI.ranking.put(data.getId(), data.getHiScore());			// 등록되지 않은 유저라면 바로 갱신
+						ServerGUI.ranking.put(data.getId(), data.getHiScore());
+						gui.appendMsg(id + "님의 최초 기록 등록! :" + data.getHiScore());
+						gui.rankSetModel(ServerGUI.ranking);
 					}
 					gui.saveRankData();
 					break;
@@ -61,12 +59,12 @@ public class ServerThread implements Runnable{
 						if(value.equals(data.getPw())){
 							id = data.getId();
 							gui.appendMsg(client.getInetAddress() + "님. ID: " + id + "로 로그인!");
-							model.clear();
+							model_user.clear();
 							currentConnectedUser.add(data.getId());
 							for (String id : currentConnectedUser) {
-								model.addElement(id);
+								model_user.addElement(id);
 							}
-							gui.userSetModel(model);
+							gui.userSetModel(model_user);
 							oos.writeObject(1);					//로그인성공 = 1, pw불일치 = 2, id미존재 = 3...
 						}else {
 							oos.writeObject(2);
@@ -86,29 +84,22 @@ public class ServerThread implements Runnable{
 						oos.writeObject(true);
 					}
 					break;
+				case TransData.TABLE_REFRESH:
+					oos.writeObject(ServerGUI.ranking);
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				runLoop = !runLoop;
-				model.clear();
+				model_user.clear();
 				currentConnectedUser.remove(id);
 				for (String id : currentConnectedUser) {
-					model.addElement(id);
+					model_user.addElement(id);
 				}
-				gui.userSetModel(model);
+				gui.userSetModel(model_user);
 				gui.appendMsg(id + "님 접속종료");
 			}
 		}
 	}//run()
-	
-	
-//	DefaultListModel model = new DefaultListModel<>();
-//	Set<String> idSet = ServerGUI.accountMap.keySet();
-//	for (String id : idSet) {
-//		model.addElement(id);
-//	}
-//	gui.userSetModel(model);
-//	이것은 전체 유저를 리스트에 박는 것 .	
 	
 }//class

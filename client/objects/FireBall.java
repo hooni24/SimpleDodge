@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import client.character.Character;
 import client.gui.GUI;
 
-public class Flame extends JComponent implements Runnable{
+public class FireBall extends JComponent implements Runnable{
 	private static final long serialVersionUID = -1936987593223746976L;
 	private BufferedImage flameImg;
 	private File flameFile;
@@ -25,7 +25,7 @@ public class Flame extends JComponent implements Runnable{
 		thSw = !thSw;
 	}
 	
-	public Flame(GUI gui) {
+	public FireBall(GUI gui) {
 		this.gui = gui;
 	}
 	
@@ -47,9 +47,14 @@ public class Flame extends JComponent implements Runnable{
 	}
 	
 	public void shoot(){
+		
 		isOn = true;												//발사되면 isOn을 true로 함. (날아가는 도중에는 계속 true이므로 무한루프 돌게 됨)
 		randomX = (int)(Math.random() * 950);						//x좌표 랜덤 부여
 		randomSpeed = (int)(Math.random() * 5)+7;					//속도(슬립당 이동 픽셀) 랜덤 부여 =  약 7~12픽셀
+		if(System.currentTimeMillis() > GUI.startTime + 10000) 			// 시작후 10초 지남.
+			randomSpeed = (int)(Math.random() * 5)+15;
+		if(System.currentTimeMillis() > GUI.startTime + 20000) 			// 시작후 20초 지남.
+			randomSpeed = (int)(Math.random() * 5)+22; 
 		try {
 			while(isOn){
 				for(int i = 1; i < 8; i ++){						//isOn이 true인 동안. (즉 날아가는 동안) 지속적으로 repaint 함으로 애니메이션 효과

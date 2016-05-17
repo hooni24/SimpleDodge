@@ -8,6 +8,7 @@ public class TransData implements Serializable {
 	public static final int HI_SCORE = 1;
 	public static final int ACCOUNT_CHECK = 2;
 	public static final int SIGN_UP = 3;
+	public static final int TABLE_REFRESH = 4;
 	
 	private int command;
 	private double hiScore;

@@ -34,6 +34,8 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private String id;
+	private JPanel p_south;
+	private JButton btn_rank;
 	
 	public SelectWindow() {
 		try {
@@ -62,6 +64,13 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		setLocationRelativeTo(null);
 		
 		getContentPane().add(p_characters);
+		
+		p_south = new JPanel();
+		getContentPane().add(p_south, BorderLayout.SOUTH);
+		
+		btn_rank = new JButton("\uC21C\uC704\uD45C");
+		btn_rank.addActionListener(this);
+		p_south.add(btn_rank);
 		setVisible(true);
 		new LoginGUI(this, ois, oos);
 	}
@@ -159,6 +168,9 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		}else if(source == btn_bird){
 			dispose();
 			new GUI("Bird", id, ois, oos);
+		}
+		if(source == btn_rank){
+			new RankTable(this, ois, oos);
 		}
 	}//actionPerformed()
 

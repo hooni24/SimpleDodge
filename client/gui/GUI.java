@@ -15,12 +15,12 @@ import javax.swing.JOptionPane;
 
 import client.character.Bird;
 import client.character.Ghost;
-import client.objects.Flame;
+import client.objects.FireBall;
 import common.TransData;
 
 public class GUI extends JFrame implements Runnable{
 	private static final long serialVersionUID = 4655929275227340979L;
-	private Flame[] fireBallArray = new Flame[20];
+	private FireBall[] fireBallArray = new FireBall[30];
 	private int life, timer_sec, timer_dot;
 	private JLabel lbl_life, lbl_timer;
 	private ArrayList<Thread> thList = new ArrayList<>();
@@ -30,6 +30,7 @@ public class GUI extends JFrame implements Runnable{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private String id;
+	public static long startTime;
 	
 	public void setLife(int life) {
 		this.life = life;
@@ -42,6 +43,7 @@ public class GUI extends JFrame implements Runnable{
 	}
 
 	public GUI(String type, String id, ObjectInputStream ois, ObjectOutputStream oos) {
+		startTime = System.currentTimeMillis();
 		this.ois = ois;
 		this.oos = oos;
 		this.id = id;
@@ -69,33 +71,21 @@ public class GUI extends JFrame implements Runnable{
 		lbl_timer.setBounds(830, 25, 200, 40);
 		lp.add(lbl_timer, new Integer(4));
 		
+
 		setTitle("Simple Dodge");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setSize(1000, 800);
-		
 		setBackground(Color.BLACK);
-		setVisible(true);
 		setLocationRelativeTo(null);
 		
-		guiThread = new Thread(this);
-		guiThread.start();										//플레이시간 체크를 위한 스레드 시작
+		new RankTable(this, ois, oos);
+		setVisible(true);							//setVisible 전에 RankTable을 만들어야 활성화가 이쪽으로 옴
+		new Thread(this).start();					//플레이시간 체크를 위한 스레드 시작
 	}
 	
 	public void lifeDown(){
 		lbl_life.setText("남은체력 : " + --life);
-	}
-	
-	@SuppressWarnings("static-access")
-	public void gameOver(){
-		for (Thread thread : thList) {
-			try {
-				thread.sleep(10);
-				thread.interrupt();
-			} catch (InterruptedException e) {
-				fireBallArray = null;
-			}
-		}
 	}
 	
 	@SuppressWarnings("static-access")
@@ -143,8 +133,8 @@ public class GUI extends JFrame implements Runnable{
 		ghostThread.start();
 		thList.add(ghostThread);
 		
-		for (Flame fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
-			fireBall = new Flame(this);
+		for (FireBall fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
+			fireBall = new FireBall(this);
 			fireBall.setBounds(0,0,1000,800);
 			lp.add(fireBall, 2);
 			Thread fireBallThread = new Thread(fireBall);
@@ -169,8 +159,8 @@ public class GUI extends JFrame implements Runnable{
 		birdThread.start();
 		thList.add(birdThread);
 		
-		for (Flame fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
-			fireBall = new Flame(this);
+		for (FireBall fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
+			fireBall = new FireBall(this);
 			fireBall.setBounds(0,0,1000,800);
 			lp.add(fireBall, 2);
 			Thread fireBallThread = new Thread(fireBall);

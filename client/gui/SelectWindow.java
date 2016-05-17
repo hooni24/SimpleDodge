@@ -36,6 +36,8 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 	private String id;
 	private JPanel p_south;
 	private JButton btn_rank;
+	private JButton btn_ghost_info;
+	private JButton btn_bird_info;
 	
 	public SelectWindow() {
 		try {
@@ -52,9 +54,9 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 	}
 	
 	public void drawUI(){
-		setTitle("Select Character");
+		setTitle("\uCE90\uB9AD\uD130 \uC120\uD0DD");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 230);
+		setSize(500, 500);
 		p_characters = new JPanel();
 		p_characters.setLayout(new FlowLayout());
 		
@@ -112,11 +114,16 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_ghostCenter.add(gi);
 		p_ghost.add(p_ghostCenter, BorderLayout.CENTER);
 		p_ghostCenter.setAlignmentX(CENTER_ALIGNMENT);
-		btn_ghost = new JButton("유령맨");
+		btn_ghost = new JButton("\uC720\uB839\uB9E8 \uC120\uD0DD");
 		btn_ghost.addActionListener(this);
 		btn_ghost.addKeyListener(this);
 		p_ghost.add(btn_ghost, BorderLayout.SOUTH);
 		p_characters.add(p_ghost);
+		
+		btn_ghost_info = new JButton("\uCE90\uB9AD\uD130 \uC815\uBCF4");
+		btn_ghost_info.addKeyListener(this);
+		btn_ghost_info.addActionListener(this);
+		p_ghost.add(btn_ghost_info, BorderLayout.NORTH);
 	}
 	
 	private void birdMenu() {
@@ -151,11 +158,16 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_birdCenter.add(bi);
 		p_bird.add(p_birdCenter, BorderLayout.CENTER);
 		p_birdCenter.setAlignmentX(CENTER_ALIGNMENT);
-		btn_bird = new JButton("참새맨");
+		btn_bird = new JButton("\uCC38\uC0C8\uB9E8 \uC120\uD0DD");
 		btn_bird.addActionListener(this);
 		btn_bird.addKeyListener(this);
 		p_bird.add(btn_bird, BorderLayout.SOUTH);
 		p_characters.add(p_bird);
+		
+		btn_bird_info = new JButton("\uCE90\uB9AD\uD130 \uC815\uBCF4");
+		btn_bird_info.addKeyListener(this);
+		btn_bird_info.addActionListener(this);
+		p_bird.add(btn_bird_info, BorderLayout.NORTH);
 	}
 
 	@Override
@@ -171,6 +183,12 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		}
 		if(source == btn_rank){
 			new RankTable(this, ois, oos);
+		}
+		if(source == btn_ghost_info){
+			JOptionPane.showMessageDialog(this, "이름 : 유령맨\n체력 : 50\n특징 : 8방향모션있음(무쓸모)\n특수능력(Space Bar) : 미구현");
+		}
+		if(source == btn_bird_info){
+			JOptionPane.showMessageDialog(this, "이름 : 참새맨\n체력 : 35\n특징 : 좌우방향모션있음(무쓸모)\n특수능력(Space Bar) : 미구현");
 		}
 	}//actionPerformed()
 

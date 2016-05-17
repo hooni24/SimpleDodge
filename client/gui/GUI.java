@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import client.character.Bird;
 import client.character.Ghost;
 import client.objects.FireBall;
+import client.objects.Wind;
 import common.TransData;
 
 public class GUI extends JFrame implements Runnable{
@@ -27,6 +28,7 @@ public class GUI extends JFrame implements Runnable{
 	private Thread guiThread;
 	private String result;
 	private JLayeredPane lp;
+	@SuppressWarnings("unused")
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private String id;
@@ -82,6 +84,16 @@ public class GUI extends JFrame implements Runnable{
 		new RankTable(this, ois, oos);
 		setVisible(true);							//setVisible 전에 RankTable을 만들어야 활성화가 이쪽으로 옴
 		new Thread(this).start();					//플레이시간 체크를 위한 스레드 시작
+		
+		for (FireBall fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
+			fireBall = new FireBall(this);
+			fireBall.setBounds(0,0,1000,800);
+			lp.add(fireBall, 2);
+			Thread fireBallThread = new Thread(fireBall);
+			fireBallThread.start();
+			thList.add(fireBallThread);
+		}
+		
 	}
 	
 	public void lifeDown(){
@@ -120,9 +132,19 @@ public class GUI extends JFrame implements Runnable{
 				JOptionPane.showMessageDialog(this, getResult(), "결과", JOptionPane.PLAIN_MESSAGE);
 				System.exit(0);
 			}
+			
+			if(startTime + 30000 <= System.currentTimeMillis() && startTime + 30100 >= System.currentTimeMillis()
+					|| startTime + 35000 <= System.currentTimeMillis() && startTime + 35100 >= System.currentTimeMillis()
+					|| startTime + 40000 <= System.currentTimeMillis() && startTime + 40100 >= System.currentTimeMillis()){
+				Wind wind = new Wind(this);							//Wind객체 생성하고 lp위에 설치
+				wind.setBounds(0, 0, 1000, 800);
+				lp.add(wind, new Integer(3));
+				Thread windThread = new Thread(wind);
+				windThread.start();
+				thList.add(windThread);
+			}
 		}//while
 	}//run()
-	
 	
 	public void ghostGame(){
 		life = 50;
@@ -133,47 +155,16 @@ public class GUI extends JFrame implements Runnable{
 		ghostThread.start();
 		thList.add(ghostThread);
 		
-		for (FireBall fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
-			fireBall = new FireBall(this);
-			fireBall.setBounds(0,0,1000,800);
-			lp.add(fireBall, 2);
-			Thread fireBallThread = new Thread(fireBall);
-			fireBallThread.start();
-			thList.add(fireBallThread);
-		}
-		
-//		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
-//		wind.setBounds(0, 0, 1000, 800);
-//		lp.add(wind, new Integer(3));
-//		Thread windThread = new Thread(wind);
-//		windThread.start();
-//		thList.add(windThread);
 	}//ghostGame()
 	
 	private void birdGame() {
-		life = 20;
+		life = 35;
 		Bird bird = new Bird(this);						//Bird 객체 생성하고 lp 위에 설치
 		bird.setBounds(0,0,1000,800);
 		lp.add(bird, new Integer(1));
 		Thread birdThread = new Thread(bird);
 		birdThread.start();
 		thList.add(birdThread);
-		
-		for (FireBall fireBall : fireBallArray) {			//fireBall 객체 배열 갯수만큼 생성하고 lp위에 설치 (전역변수에서 갯수설정가능)
-			fireBall = new FireBall(this);
-			fireBall.setBounds(0,0,1000,800);
-			lp.add(fireBall, 2);
-			Thread fireBallThread = new Thread(fireBall);
-			fireBallThread.start();
-			thList.add(fireBallThread);
-		}
-		
-//		Wind wind = new Wind();							//Wind객체 생성하고 lp위에 설치
-//		wind.setBounds(0, 0, 1000, 800);
-//		lp.add(wind, new Integer(3));
-//		Thread windThread = new Thread(wind);
-//		windThread.start();
-//		thList.add(windThread);
 		
 	}//birdGame()
 }//class

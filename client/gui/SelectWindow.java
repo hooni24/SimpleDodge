@@ -38,13 +38,14 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 	private JButton btn_rank;
 	private JButton btn_ghost_info;
 	private JButton btn_bird_info;
+	private JButton btn_patch;
 	
 	public SelectWindow() {
 		try {
 //			jar버전 데스크탑 아이피
-			client = new Socket("203.233.196.232", 7979);
+//			client = new Socket("203.233.196.232", 7979);
 //			eclipse 버전 로컬호스트
-//			client = new Socket("localhost", 7979);
+			client = new Socket("localhost", 7979);
 			oos = new ObjectOutputStream(client.getOutputStream());
 			ois = new ObjectInputStream(client.getInputStream());
 			
@@ -76,6 +77,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		btn_rank = new JButton("\uC21C\uC704\uD45C");
 		btn_rank.addActionListener(this);
 		p_south.add(btn_rank);
+		
+		btn_patch = new JButton("\uD328\uCE58\uB178\uD2B8");
+		btn_patch.addActionListener(this);
+		p_south.add(btn_patch);
 		setVisible(true);
 		new LoginGUI(this, ois, oos);
 	}
@@ -90,10 +95,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_ghost.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_ghost.setLayout(new BorderLayout());
 //		eclipse 버전
-//		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.png");
+		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.png");
 		
 //		jar 버전
-		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.png");
+//		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.png");
 		
 		try {
 			bi_ghost = ImageIO.read(file_ghost);
@@ -134,10 +139,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		p_bird.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		p_bird.setLayout(new BorderLayout());
 //		eclipse 버전
-//		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.png");
+		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.png");
 		
 //		jar 버전
-		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.png");
+//		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.png");
 		
 		try {
 			bi_bird = ImageIO.read(file_bird);
@@ -187,12 +192,18 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener{
 		if(source == btn_rank){
 			new RankTable(this, ois, oos);
 		}
+		if(source == btn_patch){
+			JOptionPane.showMessageDialog(this, "===Ver.1=== (2016.05.12)\n- 불덩이만 등장.\n- 유령맨,참새맨 선택가능.\n\n"
+												+ "===Ver.2=== (2016.05.17)\n- 바람 장애물 등장.\n- 시간에 따라 난이도 조정.\n- 캐릭터정보, 온라인랭킹(정렬안돼서 무의미) 추가."
+												+ "===Ver.3=== (2016.05.18)\n- 체이서 장애물 등장.");
+		}
 		if(source == btn_ghost_info){
 			JOptionPane.showMessageDialog(this, "이름 : 유령맨\n체력 : 50\n특징 : 8방향모션있음(무쓸모)\n특수능력(Space Bar) : 미구현");
 		}
 		if(source == btn_bird_info){
 			JOptionPane.showMessageDialog(this, "이름 : 참새맨\n체력 : 35\n특징 : 좌우방향모션있음(무쓸모)\n특수능력(Space Bar) : 미구현");
 		}
+		
 	}//actionPerformed()
 
 

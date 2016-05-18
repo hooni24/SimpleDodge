@@ -21,8 +21,8 @@ public class Bird extends Character implements KeyListener, Runnable{
 		setFocusable(true);
 		requestFocus();
 		try {
-//			birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.png"));	//eclipse버전
-			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.png"));	//jar버전
+			birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.png"));	//eclipse버전
+//			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.png"));	//jar버전
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);
@@ -91,12 +91,12 @@ public class Bird extends Character implements KeyListener, Runnable{
 				try {		//방향 이동에 따라 캐릭터 이미지 변화
 					
 //					jar 버전
-					if(right) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.png"));
-					if(left) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Left.png"));
+//					if(right) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.png"));
+//					if(left) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Left.png"));
 
 //					eclipse 버전
-//					if(right) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.png"));
-//					if(left) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Left.png"));
+					if(right) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.png"));
+					if(left) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Left.png"));
 					
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
@@ -104,9 +104,9 @@ public class Bird extends Character implements KeyListener, Runnable{
 				}
 			
 			if(up && Character.char_y > 0) Character.char_y -= 10;						//17밀리세컨드(약 60fps)로 돌면서 불리언을 확인하고, true일시 그 방향으로 이동  
-			if(down && Character.char_y < 670) Character.char_y += 10;
+			if(down && Character.char_y < 720) Character.char_y += 10;
 			if(left && Character.char_x > 0) Character.char_x -= 10;
-			if(right && Character.char_x < 900) Character.char_x += 10;
+			if(right && Character.char_x < 950) Character.char_x += 10;
 			repaint();
 			
 			try {

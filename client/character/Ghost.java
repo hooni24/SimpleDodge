@@ -77,20 +77,20 @@ public class Ghost extends Character implements KeyListener, Runnable{
 				try {		//방향 이동에 따라 캐릭터 이미지 변화
 					
 //					jar 파일 만들 때 경로 : 
-					if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.png"));
-					if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.png"));
-					if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.png"));
-					if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.png"));
-					if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.png"));
-					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+//					if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.png"));
+//					if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.png"));
+//					if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.png"));
+//					if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.png"));
+//					if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.png"));
+//					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Stay.png"));
 					
 //					eclipse에서 경로 : 
-//					if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.png"));
-//					if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.png"));
-//					if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.png"));
-//					if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.png"));
-//					if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.png"));
-//					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
+					if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.png"));
+					if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.png"));
+					if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.png"));
+					if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.png"));
+					if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.png"));
+					if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.png"));
 					
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
@@ -98,9 +98,9 @@ public class Ghost extends Character implements KeyListener, Runnable{
 				}
 			
 			if(up && Character.char_y > 0) Character.char_y -= 10;						//17밀리세컨드(약 60fps)로 돌면서 불리언을 확인하고, true일시 그 방향으로 이동  
-			if(down && Character.char_y < 670) Character.char_y += 10;
+			if(down && Character.char_y < 720) Character.char_y += 10;
 			if(left && Character.char_x > 0) Character.char_x -= 10;
-			if(right && Character.char_x < 900) Character.char_x += 10;
+			if(right && Character.char_x < 950) Character.char_x += 10;
 			repaint();
 			
 			try {

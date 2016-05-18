@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import client.character.Bird;
 import client.character.Ghost;
+import client.objects.Chaser;
 import client.objects.FireBall;
 import client.objects.Wind;
 import common.TransData;
@@ -136,6 +137,19 @@ public class GUI extends JFrame implements Runnable{
 				JOptionPane.showMessageDialog(this, getResult(), "결과", JOptionPane.PLAIN_MESSAGE);
 				System.exit(0);
 			}
+			
+			
+			if(startTime + 60000 <= System.currentTimeMillis() && startTime + 60100 >= System.currentTimeMillis()){
+			Chaser chaser = new Chaser(this);							//Chaser객체 생성하고 lp위에 설치
+			chaser.setBounds(0, 0, 1000, 800);
+			lp.add(chaser, new Integer(4));
+			Thread chaserThread = new Thread(chaser);
+			chaserThread.start();
+			thList.add(chaserThread);
+		}
+		
+			
+			
 			
 			if(startTime + 30000 <= System.currentTimeMillis() && startTime + 30100 >= System.currentTimeMillis()
 					|| startTime + 35000 <= System.currentTimeMillis() && startTime + 35100 >= System.currentTimeMillis()

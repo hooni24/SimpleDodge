@@ -60,10 +60,10 @@ public class FireBall extends JComponent implements Runnable{
 				for(int i = 1; i < 8; i ++){						//isOn이 true인 동안. (즉 날아가는 동안) 지속적으로 repaint 함으로 애니메이션 효과
 
 //					eclipse 버전
-//					flameFile = new File("C:/java/Data/Dodge/Flame/Flame (" + i + ").png");
+					flameFile = new File("C:/java/Data/Dodge/Objects/Flame/Flame (" + i + ").png");
 					
 //					jar 버전
-					flameFile = new File("./Dodge/Flame/Flame (" + i + ").png");
+//					flameFile = new File("./Dodge/Objects/Flame/Flame (" + i + ").png");
 					
 					flameImg = ImageIO.read(flameFile);
 					repaint();

@@ -11,18 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TimeZone;
 
 import javax.swing.DefaultListModel;
@@ -63,29 +57,9 @@ public class ServerGUI extends JFrame implements ActionListener{
 	private JMenuItem mi_record;
 	private JSeparator separator;
 	private DefaultListModel<Object> model_user;
-	
 	private ServerSocket server;
 	private Socket client;
-	private ObjectInputStream ois_user;
-	private ObjectOutputStream oos_user;
-	private ObjectInputStream ois_rank;
-	private ObjectOutputStream oos_rank;
-	private ObjectInputStream ois_char;
-	private ObjectOutputStream oos_char;
-
-//		eclipse 버전
-//	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
-//	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
-//	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
-
-//		jar 버전
-	private File file_user = new File("./Dodge/SaveFiles/UserData.ser");
-	private File file_rank = new File("./Dodge/SaveFiles/RankData.ser");
-	private File file_char = new File("./Dodge/SaveFiles/CharData.ser");
-	
-	public static HashMap<String, String> accountMap = new HashMap<>();			//ID / PW
-	public static HashMap<String, Double> ranking = new HashMap<>();			//ID / 최고 기록
-	public static HashMap<String, String> characterMap = new HashMap<>();		//ID / 최근 플레이캐릭터
+	public static ServerDB db = new ServerDB();
 	private JTable table_rank;
 	private Object[][] table_model = new Object[10][4];
 	private DefaultTableModel modelT;
@@ -100,21 +74,6 @@ public class ServerGUI extends JFrame implements ActionListener{
 		setTitle("\uC6B0\uC8FC\uC804\uC7C1 \uC11C\uBC84");
 		setResizable(false);
 		getContentPane().setBackground(SystemColor.desktop);
-		if(file_user.exists()){
-			accountMap = loadUserData();
-		}else {
-			saveUserData();
-		}
-		if(file_rank.exists()){
-			ranking = loadRankData();
-		}else {
-			saveRankData();
-		}
-		if(file_char.exists()){
-			characterMap = loadCharData();
-		}else {
-			saveCharData();
-		}
 		drawGUI();
 		serverOpen();
 	}
@@ -128,7 +87,8 @@ public class ServerGUI extends JFrame implements ActionListener{
 		contentPane.setLayout(new BorderLayout(3, 3));
 		setContentPane(contentPane);
 		
-		lbl_console = new JLabel("                  \u25BC \u25BC \u25BC CONSOLE \u25BC \u25BC \u25BC                                                                                                                                                                  Version.3");
+		lbl_console = new JLabel("                  ▼ ▼ ▼ CONSOLE ▼ ▼ ▼                                                                                                                                                          "
+								+ "        Version.4");
 		lbl_console.setVerticalAlignment(SwingConstants.BOTTOM);
 		lbl_console.setPreferredSize(new Dimension(200, 25));
 		lbl_console.setHorizontalAlignment(SwingConstants.LEFT);
@@ -256,7 +216,6 @@ public class ServerGUI extends JFrame implements ActionListener{
 		sp_right.setViewportView(table_rank);
 		
 		model_user = new DefaultListModel<>();
-		rankSetModel(ranking, characterMap);
 		
 		setVisible(true);
 	}
@@ -310,10 +269,16 @@ public class ServerGUI extends JFrame implements ActionListener{
 	}
 	
 	public String getTime(){
+		Calendar oCalendar = Calendar.getInstance( );
+		String currentDate = (oCalendar.get(Calendar.MONTH) + 1)>9 ? ""+Integer.toString(oCalendar.get(Calendar.MONTH) + 1) : '0'+Integer.toString(oCalendar.get(Calendar.MONTH) + 1);
+		currentDate += "/" + Integer.toString(oCalendar.get(Calendar.DAY_OF_MONTH));
 		TimeZone jst = TimeZone.getTimeZone ("JST");
 		Calendar cal = Calendar.getInstance ( jst ); // 주어진 시간대에 맞게 현재 시각으로 초기화된 GregorianCalender 객체를 반환.// 또는 Calendar now = Calendar.getInstance(Locale.KOREA);
-		String time = cal.get ( Calendar.HOUR_OF_DAY ) + ":" +cal.get ( Calendar.MINUTE ) + ":" + cal.get ( Calendar.SECOND );
-		return time;
+		String time = cal.get ( Calendar.HOUR_OF_DAY ) + ":" +cal.get ( Calendar.MINUTE );
+		
+		
+		
+		return currentDate + "  " +time;
 	}
 	
 	public void appendMsg(String message){
@@ -321,80 +286,6 @@ public class ServerGUI extends JFrame implements ActionListener{
 		sp_left.getVerticalScrollBar().setValue(sp_left.getVerticalScrollBar().getMaximum());
 	}
 	
-	@SuppressWarnings("unchecked")
-	public HashMap<String, Double> loadRankData(){
-		HashMap<String, Double> result = null;
-		try {
-				ois_rank = new ObjectInputStream(new FileInputStream(file_rank));
-				result =  (HashMap<String, Double>) ois_rank.readObject();
-				ois_rank.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	public HashMap<String, String> loadUserData(){
-		HashMap<String, String> result = null;
-		try {
-			ois_user = new ObjectInputStream(new FileInputStream(file_user));
-			result = (HashMap<String, String>) ois_user.readObject();
-			ois_user.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public HashMap<String, String> loadCharData(){
-		HashMap<String, String> result = null;
-		try {
-			ois_char = new ObjectInputStream(new FileInputStream(file_char));
-			result = (HashMap<String, String>) ois_char.readObject();
-			ois_char.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public void saveRankData(){
-		try {
-			oos_rank = new ObjectOutputStream(new FileOutputStream(file_rank));
-			oos_rank.writeObject(ranking);
-			oos_rank.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveUserData(){
-		try {
-			oos_user = new ObjectOutputStream(new FileOutputStream(file_user));
-			oos_user.writeObject(accountMap);
-			oos_user.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveCharData(){
-		try {
-			oos_char = new ObjectOutputStream(new FileOutputStream(file_char));
-			oos_char.writeObject(characterMap);
-			oos_char.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -422,8 +313,11 @@ public class ServerGUI extends JFrame implements ActionListener{
 					if(mi_record.getText().equals("전체 목록 보기")){
 						mi_record.setText("접속자 목록 보기");
 						lbl_user.setText("*  *  *  *  *  EVERY USER  *  *  *  *  *");
-						Set<String> idSet = accountMap.keySet();
-						for (String id : idSet) {
+						ArrayList<String> allList = new ArrayList<>();
+						for (UserInfo userInfo : db.getAllInfo()) {
+							allList.add(userInfo.getUser_id());
+						}
+						for (String id : allList) {
 							model_user.addElement(id);
 						}
 						userSetModel(model_user);
@@ -441,19 +335,17 @@ public class ServerGUI extends JFrame implements ActionListener{
 					if(list_user.getSelectedValue() != null){
 						int select = JOptionPane.showConfirmDialog(this, list_user.getSelectedValue() + "님을 탈퇴시키겠습니까?", "Kick", JOptionPane.OK_CANCEL_OPTION);
 						if(select == JOptionPane.OK_OPTION){
-							accountMap.remove(list_user.getSelectedValue());
-							ranking.remove(list_user.getSelectedValue());
-							characterMap.remove(list_user.getSelectedValue());
+							String targetId = db.searchInfo(list_user.getSelectedValue()).getUser_id();
+							db.deleteInfo(targetId);
+							ArrayList<String> allList = new ArrayList<>();
+							for (UserInfo userInfo : db.getAllInfo()) {
+								allList.add(userInfo.getUser_id());
+							}
 							model_user.clear();
-							Set<String> idSet = accountMap.keySet();
-							for (String id : idSet) {
+							for (String id : allList) {
 								model_user.addElement(id);
 							}
 							userSetModel(model_user);
-							rankSetModel(ranking, characterMap);
-							saveUserData();
-							saveRankData();
-							saveCharData();
 						}
 					}
 				}

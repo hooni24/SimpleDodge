@@ -30,9 +30,9 @@ public class Chaser extends Object implements Runnable{
 				for(int i = 1; i < 19; i++){
 
 //					eclipse 버전
-//					chaserFile = new File("C:/java/Data/Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
+					chaserFile = new File("C:/java/Data/Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
 //					jar 버전
-					chaserFile = new File("./Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
+//					chaserFile = new File("./Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
 					
 					chaserImg = ImageIO.read(chaserFile);
 					repaint();
@@ -45,9 +45,9 @@ public class Chaser extends Object implements Runnable{
 							&& !Character.isAbilityOn){					
 						chaser_x = 450;	chaser_y = 350; 									//체이서 멀리 던짐. (겹치는경우 화면밖 나가는거 방지)
 //						eclipse 버전
-//						playSE("C:/java/Data/Dodge/Audio/Chaser.kshA");
+						playSE("C:/java/Data/Dodge/Audio/Chaser.kshA");
 //						jar 버전
-						playSE("./Dodge/Audio/Chaser.kshA");
+//						playSE("./Dodge/Audio/Chaser.kshA");
 						gui.lifeDown();
 						Character.dummyBirth = System.currentTimeMillis();					//더미생성시간 초기화
 						Character.dummySwitch();

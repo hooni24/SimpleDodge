@@ -22,9 +22,9 @@ public class Ghost extends Character implements KeyListener, Runnable{
 		super();
 		this.gui = gui;
 //		eclipse에서 경로
-//		playSE("C:/java/Data/Dodge/Audio/Ghost_Start.kshA");
+		playSE("C:/java/Data/Dodge/Audio/Ghost_Start.kshA");
 //		jar 에서 경로
-		playSE("./Dodge/Audio/Ghost_Start.kshA");
+//		playSE("./Dodge/Audio/Ghost_Start.kshA");
 		setFocusable(true);
 		requestFocus();
 		addKeyListener(this);
@@ -63,9 +63,9 @@ public class Ghost extends Character implements KeyListener, Runnable{
 				abilityOn = System.currentTimeMillis();
 				isAbilityOn = true;
 //				eclipse 에서 경로
-//				playSE("C:/java/Data/Dodge/Audio/Ghost_Ability.kshA");
+				playSE("C:/java/Data/Dodge/Audio/Ghost_Ability.kshA");
 //				jar에서 경로
-				playSE("./Dodge/Audio/Ghost_Ability.kshA");
+//				playSE("./Dodge/Audio/Ghost_Ability.kshA");
 			}
 		}
 		
@@ -107,20 +107,20 @@ public class Ghost extends Character implements KeyListener, Runnable{
 		try {		//방향 이동에 따라 캐릭터 이미지 변화
 			
 //			jar 파일 만들 때 경로 : 
-			if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.ksh"));
-			if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.ksh"));
-			if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.ksh"));
-			if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.ksh"));
-			if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.ksh"));
-			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Stay.ksh"));
+//			if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightUp.ksh"));
+//			if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftUp.ksh"));
+//			if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Down.ksh"));
+//			if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_LeftDown.ksh"));
+//			if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_RightDown.ksh"));
+//			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ghost_Stay.ksh"));
 			
 //			eclipse에서 경로 : 
-//			if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.ksh"));
-//			if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.ksh"));
-//			if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.ksh"));
-//			if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.ksh"));
-//			if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.ksh"));
-//			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.ksh"));
+			if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightUp.ksh"));
+			if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftUp.ksh"));
+			if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Down.ksh"));
+			if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_LeftDown.ksh"));
+			if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_RightDown.ksh"));
+			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Stay.ksh"));
 			
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
@@ -143,10 +143,10 @@ public class Ghost extends Character implements KeyListener, Runnable{
 	public void dummyGhostMovement() {
 		try {		//더미 캐릭터 이미지 생성
 //			jar 파일 만들 때 경로 : 
-			dummyImg = ImageIO.read(new File("./Dodge/Character/Ghost/Dummy/Ghost_Dummy.ksh"));
+//			dummyImg = ImageIO.read(new File("./Dodge/Character/Ghost/Dummy/Ghost_Dummy.ksh"));
 			
 //			eclipse에서 경로 : 
-//			dummyImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Dummy/Ghost_Dummy.ksh"));
+			dummyImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Dummy/Ghost_Dummy.ksh"));
 			
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
@@ -169,20 +169,20 @@ public class Ghost extends Character implements KeyListener, Runnable{
 	private void ghostAbility() {
 		try {		//더미 캐릭터 이미지 생성
 //			jar 파일 만들 때 경로 : 
-			if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_RightUp.ksh"));
-			if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_LeftUp.ksh"));
-			if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_Down.ksh"));
-			if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_LeftDown.ksh"));
-			if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_RightDown.ksh"));
-			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_Stay.ksh"));
+//			if(right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_RightUp.ksh"));
+//			if(left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_LeftUp.ksh"));
+//			if(down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_Down.ksh"));
+//			if(down && left) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_LeftDown.ksh"));
+//			if(down && right) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_RightDown.ksh"));
+//			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("./Dodge/Character/Ghost/Ability/Ghost_Ability_Stay.ksh"));
 			
 //			eclipse에서 경로 : 
-//			if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_RightUp.ksh"));
-//			if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_LeftUp.ksh"));
-//			if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_Down.ksh"));
-//			if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_LeftDown.ksh"));
-//			if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_RightDown.ksh"));
-//			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_Stay.ksh"));
+			if(right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_RightUp.ksh"));
+			if(left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_LeftUp.ksh"));
+			if(down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_Down.ksh"));
+			if(down && left) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_LeftDown.ksh"));
+			if(down && right) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_RightDown.ksh"));
+			if(!right && !left && !up && !down) ghostImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Ghost/Ability/Ghost_Ability_Stay.ksh"));
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);

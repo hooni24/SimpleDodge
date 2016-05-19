@@ -31,10 +31,10 @@ public class Wind extends Object implements Runnable{
 			while(true){
 				for(int i = 1; i < 31; i++){
 //					eclipse 버전
-//					windFile = new File("C:/java/Data/Dodge/Objects/Wind/Wind (" + i + ").ksh");
+					windFile = new File("C:/java/Data/Dodge/Objects/Wind/Wind (" + i + ").ksh");
 					
 //					jar 버전
-					windFile = new File("./Dodge/Objects/Wind/Wind (" + i + ").ksh");
+//					windFile = new File("./Dodge/Objects/Wind/Wind (" + i + ").ksh");
 					
 						windImg = ImageIO.read(windFile);
 						repaint();
@@ -47,9 +47,9 @@ public class Wind extends Object implements Runnable{
 								&& !Character.isAbilityOn){					
 							gui.lifeDown();
 //							eclipse 버전
-//							playSE("C:/java/Data/Dodge/Audio/Wind.kshA");
+							playSE("C:/java/Data/Dodge/Audio/Wind.kshA");
 //							jar 버전
-							playSE("./Dodge/Audio/Wind.kshA");
+//							playSE("./Dodge/Audio/Wind.kshA");
 							Character.dummyBirth = System.currentTimeMillis();					//더미생성시간 초기화
 							Character.dummySwitch();
 							Character.isDummy = true;

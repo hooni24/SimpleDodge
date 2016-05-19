@@ -17,10 +17,10 @@ public class ServerThread implements Runnable{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private ServerGUI gui;
-	private String id;
 	private boolean runLoop;
 	private DefaultListModel<Object> model_user = new DefaultListModel<>();
-	private static final int RECENT_VERSION = 3;
+	private static final int RECENT_VERSION = 4;
+	private String id;
 
 	public ServerThread(Socket client, ServerGUI gui) {
 		this.client = client;	this.gui = gui;
@@ -41,30 +41,18 @@ public class ServerThread implements Runnable{
 				switch(data.getCommand()){
 				case TransData.GAME_OVER:
 					gui.appendMsg(id + "님의 방금 기록 : " + data.getHiScore());
-					if(ServerGUI.ranking.containsKey(data.getId())){						// 랭킹에 등록된 유저인가?
-						if(ServerGUI.ranking.get(data.getId()) < data.getHiScore()){		// 등록된 유저 이면서 방금 들어온 버틴시간이 더 큰가 ? 
-							ServerGUI.ranking.put(data.getId(), data.getHiScore());		// 그렇다면 점수 갱신.
-							ServerGUI.characterMap.put(data.getId(), data.getCharacterType());
+						if(ServerGUI.db.searchInfo(data.getId()).getHi_score() < data.getHiScore()){		// 방금 들어온 버틴시간이 더 큰가 ?
+							ServerGUI.db.updateScore(data.getId(), String.valueOf(data.getHiScore()), data.getCharacterType());
 							gui.appendMsg(id + "님의 개인기록 경신! :" + data.getHiScore() + " with " + data.getCharacterType());
-							gui.rankSetModel(ServerGUI.ranking, ServerGUI.characterMap);
 						}
-					}else {
-						ServerGUI.ranking.put(data.getId(), data.getHiScore());
-						ServerGUI.characterMap.put(data.getId(), data.getCharacterType());
-						gui.appendMsg(id + "님의 최초 기록 등록! :" + data.getHiScore() + " with " + data.getCharacterType());
-						gui.rankSetModel(ServerGUI.ranking, ServerGUI.characterMap);
-					}
-					gui.saveRankData();
-					gui.saveCharData();
 					break;
 				case TransData.TRY_LOG_IN:
-					String value = ServerGUI.accountMap.get(data.getId());
-					if(value != null){
-						if(value.equals(data.getPw())){
-							id = data.getId();
+					UserInfo info = ServerGUI.db.searchInfo(data.getId());
+					if(info != null) id = info.getUser_id();						//getUser_id() 를 통해 밸류값으로 존재하는 아이디인지 확인함.
+					if(id != null){
+						if(data.getPw().equals(info.getUser_pw())){
 							gui.appendMsg(client.getInetAddress() + "님. ID: " + id + "로 로그인!");
-							model_user.clear();
-							currentConnectedUser.add(data.getId());
+							currentConnectedUser.add(id);
 							for (String id : currentConnectedUser) {
 								model_user.addElement(id);
 							}
@@ -78,20 +66,18 @@ public class ServerThread implements Runnable{
 					}
 					break;
 				case TransData.SIGN_UP:
-					value = ServerGUI.accountMap.get(data.getId());		//가입성공 true, 가입실패 false
-					if(value != null){
+					UserInfo info_sign = ServerGUI.db.searchInfo(data.getId());		//log in이랑 같은 방식
+					String id_sign = null;
+					if(info_sign != null) id_sign = info_sign.getUser_id();
+					if(id_sign != null){
 						oos.writeObject(false);
 					}else {
-						ServerGUI.accountMap.put(data.getId(), data.getPw());
-						gui.appendMsg(client.getInetAddress() + "님. ID: " + data.getId() + "로 회원가입!");
-						gui.saveUserData();
+						gui.appendMsg(client.getInetAddress() + "님. ID: " + id_sign + "로 회원가입!");
+						ServerGUI.db.insertInfo(data.getId(), data.getPw());		//db에 저장
 						oos.writeObject(true);
 					}
 					break;
 				case TransData.TABLE_REFRESH:
-					data.setCharData(ServerGUI.characterMap);
-					data.setRankingData(ServerGUI.ranking);
-					oos.writeObject(data);
 					break;
 				case TransData.VERSION_CHEK:
 					if(data.getClientVersion() == RECENT_VERSION){

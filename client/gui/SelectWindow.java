@@ -54,7 +54,7 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 	private AudioInputStream ais;
 	private Clip clip;
 	
-	private final int VERSION_NUMBER = 3;
+	private final int VERSION_NUMBER = 4;
 	private JPanel panel;
 	private JLabel lbl_version;
 	private JButton btn_notice;
@@ -64,9 +64,9 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 
 		try {
 //			jar버전 데스크탑 아이피
-			client = new Socket("203.233.196.232", 23231);
+//			client = new Socket("203.233.196.232", 23231);
 //			eclipse 버전 로컬호스트
-//			client = new Socket("localhost", 23231);
+			client = new Socket("localhost", 23231);
 			oos = new ObjectOutputStream(client.getOutputStream());
 			ois = new ObjectInputStream(client.getInputStream());
 			
@@ -136,7 +136,7 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 		panel.setBackground(Color.DARK_GRAY);
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		lbl_version = new JLabel("\uC6B0\uC8FC\uC804\uC7C1 Ver.3");
+		lbl_version = new JLabel("\uC6B0\uC8FC\uC804\uC7C1 Ver.4");
 		lbl_version.setFont(new Font("D2Coding", Font.PLAIN, 26));
 		lbl_version.setForeground(new Color(173, 255, 47));
 		panel.add(lbl_version);
@@ -154,10 +154,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 		p_ghost.setBorder(new EtchedBorder(EtchedBorder.RAISED, Color.LIGHT_GRAY, Color.BLACK));
 		p_ghost.setLayout(new BorderLayout());
 //		eclipse 버전
-//		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.ksh");
+		file_ghost = new File("C:/java/Data/Dodge/Character/Ghost/Ghost_Menu.ksh");
 		
 //		jar 버전
-		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.ksh");
+//		file_ghost = new File("./Dodge/Character/Ghost/Ghost_Menu.ksh");
 		
 		try {
 			bi_ghost = ImageIO.read(file_ghost);
@@ -205,10 +205,10 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 		p_bird.setBorder(new EtchedBorder(EtchedBorder.RAISED, Color.LIGHT_GRAY, Color.BLACK));
 		p_bird.setLayout(new BorderLayout());
 //		eclipse 버전
-//		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.ksh");
+		file_bird = new File("C:/java/Data/Dodge/Character/Bird/Bird_Menu.ksh");
 		
 //		jar 버전
-		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.ksh");
+//		file_bird = new File("./Dodge/Character/Bird/Bird_Menu.ksh");
 		
 		try {
 			bi_bird = ImageIO.read(file_bird);
@@ -263,7 +263,7 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 			new GUI("Bird", id, ois, oos);
 		}
 		if(source == btn_rank){
-			new RankTable(this, ois, oos);
+//			new RankTable(this, ois, oos);								////////////////////////////////////////랭킹 테이블 클라이언트쪽 
 		}
 		if(source == btn_patch){
 			new PatchDialog(this);
@@ -313,51 +313,51 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 		switch (rand) {
 		case 0:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro00_IronMan3_Theme.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro00_IronMan3_Theme.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro00_IronMan3_Theme.kshA");
+//			playBGM("./Dodge/Audio/Intro00_IronMan3_Theme.kshA");
 			break;
 		case 1:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro01_Cap's Promise.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro01_Cap's Promise.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro01_Cap's Promise.kshA");
+//			playBGM("./Dodge/Audio/Intro01_Cap's Promise.kshA");
 			break;
 		case 2:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro02_IronMan_FinalBattle.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro02_IronMan_FinalBattle.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro02_IronMan_FinalBattle.kshA");
+//			playBGM("./Dodge/Audio/Intro02_IronMan_FinalBattle.kshA");
 			break;
 		case 3:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro03_Avengers2_Church_Battle.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro03_Avengers2_Church_Battle.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro03_Avengers2_Church_Battle.kshA");
+//			playBGM("./Dodge/Audio/Intro03_Avengers2_Church_Battle.kshA");
 			break;
 		case 4:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro04_DJ_Sona_Kinetic_LoginScreenIntro.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro04_DJ_Sona_Kinetic_LoginScreenIntro.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro04_DJ_Sona_Kinetic_LoginScreenIntro.kshA");
+//			playBGM("./Dodge/Audio/Intro04_DJ_Sona_Kinetic_LoginScreenIntro.kshA");
 			break;
 		case 5:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro05_Fortress_bgm01.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro05_Fortress_bgm01.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro05_Fortress_bgm01.kshA");
+//			playBGM("./Dodge/Audio/Intro05_Fortress_bgm01.kshA");
 			break;
 		case 6:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro06_Loginloop_AprilFools2015.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro06_Loginloop_AprilFools2015.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro06_Loginloop_AprilFools2015.kshA");
+//			playBGM("./Dodge/Audio/Intro06_Loginloop_AprilFools2015.kshA");
 			break;
 		case 7:
 //			eclipse 버전
-//			playBGM("C:/java/Data/Dodge/Audio/Intro07_LOL_2016_Theme.kshA");
+			playBGM("C:/java/Data/Dodge/Audio/Intro07_LOL_2016_Theme.kshA");
 //			jar 버전
-			playBGM("./Dodge/Audio/Intro07_LOL_2016_Theme.kshA");
+//			playBGM("./Dodge/Audio/Intro07_LOL_2016_Theme.kshA");
 			break;
 		}
 

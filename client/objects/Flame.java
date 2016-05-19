@@ -59,10 +59,10 @@ public class Flame extends Object implements Runnable{
 				for(int i = 1; i < 8; i ++){						//isOn이 true인 동안. (즉 날아가는 동안) 지속적으로 repaint 함으로 애니메이션 효과
 
 //					eclipse 버전
-//					flameFile = new File("C:/java/Data/Dodge/Objects/Flame/Flame (" + i + ").ksh");
+					flameFile = new File("C:/java/Data/Dodge/Objects/Flame/Flame (" + i + ").ksh");
 					
 //					jar 버전
-					flameFile = new File("./Dodge/Objects/Flame/Flame (" + i + ").ksh");
+//					flameFile = new File("./Dodge/Objects/Flame/Flame (" + i + ").ksh");
 					
 					flameImg = ImageIO.read(flameFile);
 					repaint();
@@ -76,9 +76,9 @@ public class Flame extends Object implements Runnable{
 							&& !Character.isDummy
 							&& !Character.isAbilityOn){
 //						eclipse 버전
-//						playSE("C:/java/Data/Dodge/Audio/Flame.kshA");
+						playSE("C:/java/Data/Dodge/Audio/Flame.kshA");
 //						jar 버전
-						playSE("./Dodge/Audio/Flame.kshA");
+//						playSE("./Dodge/Audio/Flame.kshA");
 						
 						gui.lifeDown();
 						Character.dummyBirth = System.currentTimeMillis();					//더미생성시간 초기화

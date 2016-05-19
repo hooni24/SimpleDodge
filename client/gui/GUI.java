@@ -3,11 +3,14 @@ package client.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -21,11 +24,12 @@ import client.objects.Flame;
 import client.objects.Wind;
 import common.TransData;
 
-public class GUI extends JFrame implements Runnable{
+public class GUI extends JFrame implements Runnable, ActionListener{
 	private static final long serialVersionUID = 4655929275227340979L;
-	private Flame[] flameArray = new Flame[30];
+	private Flame[] flameArray = new Flame[25];
 	private int timer_sec, timer_dot;
 	private JLabel lbl_life, lbl_timer, lbl_ability;
+	private JButton cheat_life;
 	private ArrayList<Thread> thList = new ArrayList<>();
 	private Thread guiThread;
 	private String result;
@@ -68,6 +72,12 @@ public class GUI extends JFrame implements Runnable{
 			birdGame();		break;
 		}
 		
+		cheat_life = new JButton();
+		cheat_life.setBounds(224, 133, 17, 19);
+		lp.add(cheat_life, new Integer(-1));
+		cheat_life.addActionListener(this);
+		cheat_life.setFocusable(false);
+		
 		lbl_ability = new JLabel("남은 특수능력 : " + Character.ability);
 		lbl_ability.setFont(new Font("gulim", Font.BOLD, 17));
 		lbl_ability.setForeground(Color.WHITE);
@@ -93,7 +103,7 @@ public class GUI extends JFrame implements Runnable{
 		setBackground(Color.BLACK);
 		setLocationRelativeTo(null);
 		
-		new RankTable(this, ois, oos);
+//		new RankTable(this, ois, oos);
 		setVisible(true);							//setVisible 전에 RankTable을 만들어야 활성화가 이쪽으로 옴
 		new Thread(this).start();					//플레이시간 체크를 위한 스레드 시작
 		
@@ -140,7 +150,6 @@ public class GUI extends JFrame implements Runnable{
 					e.printStackTrace();
 				}
 				dispose();
-				Character.life = 20;
 				JOptionPane.showMessageDialog(this, getResult(), "결과", JOptionPane.PLAIN_MESSAGE);
 				System.exit(0);
 			}
@@ -169,7 +178,7 @@ public class GUI extends JFrame implements Runnable{
 	
 	public void ghostGame(){
 		Character.ability = 2;
-		Character.life = 5;
+		Character.life = 5000;
 		ghost = new Ghost(this);
 		ghost.setBounds(0, 0, 1000, 800);
 		lp.add(ghost, new Integer(100));
@@ -188,4 +197,12 @@ public class GUI extends JFrame implements Runnable{
 		birdThread.start();
 		thList.add(birdThread);
 	}//birdGame()
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == cheat_life){
+			Character.life = 51;
+			lifeDown();
+		}
+		
+	}
 }//class

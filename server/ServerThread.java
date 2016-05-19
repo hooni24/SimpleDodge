@@ -20,6 +20,7 @@ public class ServerThread implements Runnable{
 	private String id;
 	private boolean runLoop;
 	private DefaultListModel<Object> model_user = new DefaultListModel<>();
+	private static final int RECENT_VERSION = 3;
 
 	public ServerThread(Socket client, ServerGUI gui) {
 		this.client = client;	this.gui = gui;
@@ -91,6 +92,17 @@ public class ServerThread implements Runnable{
 					data.setCharData(ServerGUI.characterMap);
 					data.setRankingData(ServerGUI.ranking);
 					oos.writeObject(data);
+					break;
+				case TransData.VERSION_CHEK:
+					if(data.getClientVersion() == RECENT_VERSION){
+						data.setIsVersionRecent(true);
+						oos.writeObject(data);
+					}else {
+						data.setRecentVersion(RECENT_VERSION);
+						data.setIsVersionRecent(false);
+						oos.writeObject(data);
+					}
+					break;
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

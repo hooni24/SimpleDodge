@@ -18,8 +18,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import common.TransData;
+import java.awt.Color;
+import java.awt.Font;
 
-public class LoginGUI extends JDialog implements ActionListener{
+public class LoginGUI extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 7417431979684212919L;
 	private JButton btn_ok;
 	private JButton btn_signUp;
@@ -32,31 +34,52 @@ public class LoginGUI extends JDialog implements ActionListener{
 	private ObjectOutputStream oos;
 
 	public LoginGUI(SelectWindow selectWindow, ObjectInputStream ois, ObjectOutputStream oos) {
-		super(selectWindow, "LogIn", true);		//true이면 다이얼로그 처리 꼭 해야함. false이면 안해도 다른 창 사용 가능 ( modal )
+		super(selectWindow, "\uB85C\uADF8\uC778", true);		//true이면 다이얼로그 처리 꼭 해야함. false이면 안해도 다른 창 사용 가능 ( modal )
+		getContentPane().setBackground(Color.DARK_GRAY);
+		
 		this.oos = oos; this.ois = ois;
 		this.selectWindow = selectWindow;
-		setSize(300, 100);
-		setLayout(new FlowLayout());
+		setSize(378, 138);
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setVgap(15);
+		flowLayout.setHgap(10);
+		getContentPane().setLayout(flowLayout);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(selectWindow);
 		
 		lbl_id = new JLabel("ID");
-		tf_id = new JTextField(10);
+		lbl_id.setFont(new Font("D2Coding", Font.PLAIN, 18));
+		lbl_id.setForeground(Color.GREEN);
+		tf_id = new JTextField(12);
+		tf_id.setFont(new Font("D2Coding", Font.PLAIN, 16));
+		tf_id.setForeground(Color.GREEN);
+		tf_id.setBackground(Color.GRAY);
 		lbl_pw = new JLabel("PW");
-		tf_pw = new JPasswordField(10);
+		lbl_pw.setFont(new Font("D2Coding", Font.PLAIN, 18));
+		lbl_pw.setForeground(Color.GREEN);
+		tf_pw = new JPasswordField(12);
+		tf_pw.setFont(new Font("D2Coding", Font.PLAIN, 16));
+		tf_pw.setForeground(Color.GREEN);
+		tf_pw.setBackground(Color.GRAY);
 		tf_pw.addActionListener(this);
 		
 		btn_ok = new JButton("로그인");
+		btn_ok.setBackground(Color.DARK_GRAY);
+		btn_ok.setFont(new Font("D2Coding", Font.PLAIN, 15));
+		btn_ok.setForeground(Color.GREEN);
 		btn_ok.addActionListener(this);
 		btn_signUp = new JButton("회원가입");
+		btn_signUp.setBackground(Color.DARK_GRAY);
+		btn_signUp.setFont(new Font("D2Coding", Font.PLAIN, 15));
+		btn_signUp.setForeground(Color.GREEN);
 		btn_signUp.addActionListener(this);
 		
-		add(lbl_id);
-		add(tf_id);
-		add(lbl_pw);
-		add(tf_pw);
-		add(btn_ok);
-		add(btn_signUp);
+		getContentPane().add(lbl_id);
+		getContentPane().add(tf_id);
+		getContentPane().add(lbl_pw);
+		getContentPane().add(tf_pw);
+		getContentPane().add(btn_ok);
+		getContentPane().add(btn_signUp);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -66,6 +89,7 @@ public class LoginGUI extends JDialog implements ActionListener{
 		});
 		
 		setVisible(true);
+		
 	}
 
 	@Override
@@ -104,7 +128,5 @@ public class LoginGUI extends JDialog implements ActionListener{
 			new SignUp(this, ois, oos);
 			
 		}
-		
 	}//actionPerformed()
-	
 }//class

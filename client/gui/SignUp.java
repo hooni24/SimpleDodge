@@ -18,6 +18,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import common.TransData;
+import java.awt.Color;
+import java.awt.Font;
 
 public class SignUp extends JDialog implements ActionListener{
 	private static final long serialVersionUID = -3291434890544364721L;
@@ -31,31 +33,55 @@ public class SignUp extends JDialog implements ActionListener{
 	private JButton btn_cancel;
 	
 	public SignUp(LoginGUI loginGUI, ObjectInputStream ois, ObjectOutputStream oos) {
-		super(loginGUI, "SingUp", true);
+		super(loginGUI, "\uD68C\uC6D0\uAC00\uC785", true);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		this.oos = oos; this.ois = ois;
 		
-		setSize(350, 150);
-		setLayout(new FlowLayout());
+		setSize(359, 208);
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setVgap(40);
+		flowLayout.setHgap(10);
+		getContentPane().setLayout(flowLayout);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(loginGUI);
 		
 		lbl_id = new JLabel("ID");
-		tf_id = new JTextField(10);
+		lbl_id.setFont(new Font("D2Coding", Font.PLAIN, 18));
+		lbl_id.setForeground(new Color(0, 255, 127));
+		lbl_id.setBackground(Color.DARK_GRAY);
+		tf_id = new JTextField(12);
+		tf_id.setFont(new Font("D2Coding", Font.PLAIN, 16));
+		tf_id.setBackground(Color.GRAY);
+		tf_id.setForeground(Color.GREEN);
+		tf_id.setDisabledTextColor(Color.GRAY);
 		lbl_pw = new JLabel("PW");
-		tf_pw = new JPasswordField(10);
+		lbl_pw.setFont(new Font("D2Coding", Font.PLAIN, 18));
+		lbl_pw.setForeground(new Color(0, 255, 127));
+		lbl_pw.setBackground(Color.DARK_GRAY);
+		tf_pw = new JPasswordField(12);
+		tf_pw.setFont(new Font("D2Coding", Font.PLAIN, 16));
+		tf_pw.setBackground(Color.GRAY);
+		tf_pw.setForeground(Color.GREEN);
+		tf_pw.setDisabledTextColor(Color.GRAY);
 		tf_pw.addActionListener(this);
 		
 		btn_signUp = new JButton("회원가입");
+		btn_signUp.setFont(new Font("D2Coding", Font.PLAIN, 15));
+		btn_signUp.setForeground(new Color(0, 255, 127));
+		btn_signUp.setBackground(Color.DARK_GRAY);
 		btn_signUp.addActionListener(this);
 		btn_cancel = new JButton("취소");
+		btn_cancel.setFont(new Font("D2Coding", Font.PLAIN, 15));
+		btn_cancel.setForeground(new Color(0, 255, 127));
+		btn_cancel.setBackground(Color.DARK_GRAY);
 		btn_cancel.addActionListener(this);
 		
-		add(lbl_id);
-		add(tf_id);
-		add(lbl_pw);
-		add(tf_pw);
-		add(btn_signUp);
-		add(btn_cancel);
+		getContentPane().add(lbl_id);
+		getContentPane().add(tf_id);
+		getContentPane().add(lbl_pw);
+		getContentPane().add(tf_pw);
+		getContentPane().add(btn_signUp);
+		getContentPane().add(btn_cancel);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override

@@ -10,6 +10,7 @@ public class TransData implements Serializable {
 	public static final int TRY_LOG_IN = 2;
 	public static final int SIGN_UP = 3;
 	public static final int TABLE_REFRESH = 4;
+	public static final int VERSION_CHEK = 5;
 	
 	private int command;
 	private String characterType;
@@ -19,9 +20,30 @@ public class TransData implements Serializable {
 	private String pw;
 	private HashMap<String, Double> rankingData;
 	private HashMap<String, String> charData;
+	private int clientVersion, recentVersion;
+	private boolean isVersionRecent;
 	
 	
 	
+	
+	public boolean getIsVersionRecent() {
+		return isVersionRecent;
+	}
+	public void setIsVersionRecent(boolean isVersionRecent) {
+		this.isVersionRecent = isVersionRecent;
+	}
+	public int getClientVersion() {
+		return clientVersion;
+	}
+	public void setClientVersion(int clientVersion) {
+		this.clientVersion = clientVersion;
+	}
+	public int getRecentVersion() {
+		return recentVersion;
+	}
+	public void setRecentVersion(int recentVersion) {
+		this.recentVersion = recentVersion;
+	}
 	public HashMap<String, Double> getRankingData() {
 		return rankingData;
 	}

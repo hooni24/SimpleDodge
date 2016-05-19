@@ -45,9 +45,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class ServerGUI extends JFrame implements ActionListener{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4176997584750967754L;
 	private JPanel contentPane;
 	private JPanel p_left;
@@ -77,14 +74,14 @@ public class ServerGUI extends JFrame implements ActionListener{
 	private ObjectOutputStream oos_char;
 
 //		eclipse 버전
-	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
-	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
-	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
+//	private File file_user = new File("C:/java/Data/Dodge/SaveFiles/UserData.ser");
+//	private File file_rank = new File("C:/java/Data/Dodge/SaveFiles/RankData.ser");
+//	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
 
 //		jar 버전
-//	private File file_user = new File("./Dodge/SaveFiles/UserData.ser");
-//	private File file_rank = new File("./Dodge/SaveFiles/RankData.ser");
-//	private File file_char = new File("./Dodge/SaveFiles/CharData.ser");
+	private File file_user = new File("./Dodge/SaveFiles/UserData.ser");
+	private File file_rank = new File("./Dodge/SaveFiles/RankData.ser");
+	private File file_char = new File("./Dodge/SaveFiles/CharData.ser");
 	
 	public static HashMap<String, String> accountMap = new HashMap<>();			//ID / PW
 	public static HashMap<String, Double> ranking = new HashMap<>();			//ID / 최고 기록
@@ -100,6 +97,7 @@ public class ServerGUI extends JFrame implements ActionListener{
 
 
 	public ServerGUI() {
+		setTitle("\uC6B0\uC8FC\uC804\uC7C1 \uC11C\uBC84");
 		setResizable(false);
 		getContentPane().setBackground(SystemColor.desktop);
 		if(file_user.exists()){
@@ -114,7 +112,6 @@ public class ServerGUI extends JFrame implements ActionListener{
 		}
 		if(file_char.exists()){
 			characterMap = loadCharData();
-			System.out.println(characterMap);
 		}else {
 			saveCharData();
 		}
@@ -131,7 +128,7 @@ public class ServerGUI extends JFrame implements ActionListener{
 		contentPane.setLayout(new BorderLayout(3, 3));
 		setContentPane(contentPane);
 		
-		lbl_console = new JLabel("                  \u25BC \u25BC \u25BC CONSOLE \u25BC \u25BC \u25BC");
+		lbl_console = new JLabel("                  \u25BC \u25BC \u25BC CONSOLE \u25BC \u25BC \u25BC                                                                                                                                                                  Version.3");
 		lbl_console.setVerticalAlignment(SwingConstants.BOTTOM);
 		lbl_console.setPreferredSize(new Dimension(200, 25));
 		lbl_console.setHorizontalAlignment(SwingConstants.LEFT);
@@ -266,7 +263,7 @@ public class ServerGUI extends JFrame implements ActionListener{
 	
 	public void serverOpen(){
 		try {
-			server = new ServerSocket(7979);
+			server = new ServerSocket(23231);
 			appendMsg("서버 오픈!");
 			while(true){
 				appendMsg("대기중......");

@@ -12,7 +12,7 @@ public class ServerDB {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-	private String url = "jdbc:oracle:thin:@203.233.196.232:1521:XE";
+	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	private Properties info;
 	
 	public void makeConnection(){

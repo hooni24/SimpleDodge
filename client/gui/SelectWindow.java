@@ -64,9 +64,9 @@ public class SelectWindow extends JFrame implements ActionListener, KeyListener,
 
 		try {
 //			jar버전 데스크탑 아이피
-//			client = new Socket("203.233.196.232", 23231);
+			client = new Socket("203.233.196.232", 23231);
 //			eclipse 버전 로컬호스트
-			client = new Socket("localhost", 23231);
+//			client = new Socket("localhost", 23231);
 			oos = new ObjectOutputStream(client.getOutputStream());
 			ois = new ObjectInputStream(client.getInputStream());
 			

@@ -16,10 +16,7 @@ public class Background extends JComponent{
 
 	public Background() {
 		try {
-//			eclipse 버전
-			bgFile = new File("C:/java/Data/Dodge/Objects/Background.ksh");
-//			jar 버전
-//			bgFile = new File("./Dodge/Objects/Background.ksh");
+			bgFile = new File("./Dodge/Objects/Background.ksh");
 			bgImg = ImageIO.read(bgFile);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");

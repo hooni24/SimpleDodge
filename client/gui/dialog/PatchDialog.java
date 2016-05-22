@@ -49,7 +49,7 @@ public class PatchDialog extends JDialog implements ActionListener{
 				+ "===Ver.01=== (2016.05.12)\n- 불덩이만 등장.\n- 유령맨,참새맨 선택가능.\n\n"
 				+ "===Ver.02=== (2016.05.17)\n- 바람 장애물 등장.\n- 시간에 따라 난이도 조정.\n- 캐릭터정보, 온라인랭킹(정렬안돼서 무의미) 추가.\n\n"
 				+ "===Ver.03=== (2016.05.19)\n- 체이서 장애물 등장.\n- 특수능력(Space Bar) 구현.\n- 피격시 일정시간무적.\n- 난이도 재조정.\n- 사운드 추가.\n- 현재 참새맨과 유령맨의 차이는 모양뿐.\n- UI변경\n\n"
-				+ "===Ver.04=== (2016.05.XX)\n- NOTHING NOW");
+				+ "===Ver.04=== (2016.05.XX)\n- 순위 정렬 가능(피튀기는 경쟁)\n- 불덩이갯수 조정");
 		
 		panel_1 = new JPanel();
 		panel_1.setBackground(Color.DARK_GRAY);

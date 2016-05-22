@@ -21,17 +21,11 @@ public class Bird extends Character implements KeyListener, Runnable{
 	public Bird(GUI gui) {										//이 constructor에서는 이미지를 그리지 않음. run메소드로 그린다.
 		super();
 		this.gui =gui;
-//		eclipse 버전
-		playSE("C:/java/Data/Dodge/Audio/Bird_Start.kshA");
-//		jar 버전
-//		playSE("./Dodge/Audio/Bird_Start.kshA");
+		playSE("./Dodge/Audio/Bird_Start.kshA");
 		setFocusable(true);
 		requestFocus();
 		try {
-//			eclipse버전
-			birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.ksh"));	
-//			jar버전
-//			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.ksh"));	
+			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.ksh"));	
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);
@@ -78,10 +72,7 @@ public class Bird extends Character implements KeyListener, Runnable{
 				if(Character.ability == 0) Character.abilityAble = false;			//특수능력 체크해서 0되면 더이상 사용 못하게
 				abilityOn = System.currentTimeMillis();
 				isAbilityOn = true;
-//				eclipse 버전
-				playSE("C:/java/Data/Dodge/Audio/Bird_Ability.kshA");
-//				jar 버전
-//				playSE("./Dodge/Audio/Bird_Ability.kshA");
+				playSE("./Dodge/Audio/Bird_Ability.kshA");
 			}
 		}
 		
@@ -122,14 +113,8 @@ public class Bird extends Character implements KeyListener, Runnable{
 	public void realBirdMovement(){
 		try {		//방향 이동에 따라 캐릭터 이미지 변화
 			
-//			jar 버전
-//			if(right) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.ksh"));
-//			if(left) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Left.ksh"));
-
-//			eclipse 버전
-			if(right) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Right.ksh"));
-			if(left) birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Bird_Left.ksh"));
-			
+			if(right) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Right.ksh"));
+			if(left) birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Bird_Left.ksh"));
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);
@@ -149,13 +134,7 @@ public class Bird extends Character implements KeyListener, Runnable{
 	
 	public void dummyBirdMovement() {
 		try {		//방향 이동에 따라 캐릭터 이미지 변화
-			
-//			jar 버전
-//			dummyImg = ImageIO.read(new File("./Dodge/Character/Bird/Dummy/Bird_Dummy.ksh"));
-
-//			eclipse 버전
-			dummyImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Dummy/Bird_Dummy.ksh"));
-			
+			dummyImg = ImageIO.read(new File("./Dodge/Character/Bird/Dummy/Bird_Dummy.ksh"));
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);
@@ -175,10 +154,7 @@ public class Bird extends Character implements KeyListener, Runnable{
 	
 	private void birdAbility() {
 		try {		
-//			jar 파일 만들 때 경로 : 
-//			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Ability/Bird_Ability.ksh"));
-//			eclipse에서 경로 : 
-			birdImg = ImageIO.read(new File("C:/java/Data/Dodge/Character/Bird/Ability/Bird_Ability.ksh"));
+			birdImg = ImageIO.read(new File("./Dodge/Character/Bird/Ability/Bird_Ability.ksh"));
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(this, "이미지 파일 손상 또는 없음");
 			System.exit(0);

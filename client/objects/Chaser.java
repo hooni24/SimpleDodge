@@ -29,39 +29,31 @@ public class Chaser extends Object implements Runnable{
 			while(true){
 				for(int i = 1; i < 19; i++){
 
-//					eclipse 버전
-					chaserFile = new File("C:/java/Data/Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
-//					jar 버전
-//					chaserFile = new File("./Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
+					chaserFile = new File("./Dodge/Objects/Chaser/Chaser (" + i + ").ksh");
 					
 					chaserImg = ImageIO.read(chaserFile);
 					repaint();
 					chaserMovement();
-					Thread.sleep(30);
+					Thread.sleep(17);
 					
 					if((Character.char_x > chaser_x-45 && Character.char_x < chaser_x+45)			//부딪히면?
 							&& (Character.char_y > chaser_y-45 && Character.char_y < chaser_y+45)
 							&& !Character.isDummy
 							&& !Character.isAbilityOn){					
 						chaser_x = 450;	chaser_y = 350; 									//체이서 멀리 던짐. (겹치는경우 화면밖 나가는거 방지)
-//						eclipse 버전
-						playSE("C:/java/Data/Dodge/Audio/Chaser.kshA");
-//						jar 버전
-//						playSE("./Dodge/Audio/Chaser.kshA");
+						playSE("./Dodge/Audio/Chaser.kshA");
 						gui.lifeDown();
 						Character.dummyBirth = System.currentTimeMillis();					//더미생성시간 초기화
 						Character.dummySwitch();
-						Character.isDummy = true;
 					}
-					
+				
 					if(Character.dummyBirth + 1500 < System.currentTimeMillis() && Character.isDummy){
 						Character.dummySwitch();
-						Character.isDummy = false;
 						Character.dummyBirth = Long.MAX_VALUE - 5000;						//원래대로 돌아가면서 최대값근사치로 초기화
 					}
 					
 					if(GUI.startTime + 50000 <= System.currentTimeMillis() && GUI.startTime + 50100 >= System.currentTimeMillis()){		//50초에 속도증가
-						speed = 9;
+						speed = 7;
 					}
 				
 				}//for

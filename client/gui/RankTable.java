@@ -11,8 +11,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -106,10 +104,8 @@ public class RankTable extends JFrame {
 		data.setCommand(TransData.TABLE_REFRESH);
 		try {
 			oos.writeObject(data);
-			data = (TransData) ois.readObject();
-			HashMap<String, Double> ranking = data.getRankingData();
-			HashMap<String, String> characterType = data.getCharData();
-			rankSetModel(ranking, characterType);
+			DefaultTableModel modelT = (DefaultTableModel) ois.readObject();
+			rankSetModel(modelT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -117,33 +113,24 @@ public class RankTable extends JFrame {
 		}
 	}
 	
-	
-	
-	public void rankSetModel(HashMap<String, Double> ranking, HashMap<String, String> characterType){
-		Object[] idSet = ranking.keySet().toArray();				//id랑 기록 묶인 맵
-		ArrayList<Double> scoreList = new ArrayList<>();
-		for(int i = 0; i < idSet.length; i++){						//id에 묶인 밸류인 기록을 어레이리스트화 시킴
-			scoreList.add(ranking.get(idSet[i]));
-			if(i == 9) break;										//10개만..
-		}
-		for(int i = 0; i < idSet.length; i++){						//10개 테이블모델에 세팅 함.
-			table_model[i][1] = idSet[i];
-			table_model[i][2] = scoreList.get(i);
-			if(i == 9) break;
-		}
-		
-		Object[] charSet = characterType.keySet().toArray();			//id랑 플레이한 캐릭터 묶인 맵 (이하 로직은 id랑 기록 저장하는거랑 같음)
-		ArrayList<String> charList = new ArrayList<>();
-		for(int i = 0; i < charSet.length; i++){
-			charList.add(characterType.get(charSet[i]));
-			if(i == 9) break;
-		}
-		for(int i = 0; i < charList.size(); i++){
-			table_model[i][3] = charList.get(i);
-			if(i == 9) break;
-		}
-		modelT.setDataVector(table_model, columnNames);
-		table_rank.setModel(modelT);								//세팅끝난 모델을 테이블에 적용시킴
+	public void rankSetModel(DefaultTableModel modelT){
+		table_rank.setEnabled(false);										//디폴트 테이블 모델을 JTable에 갖다 붙임
+		table_rank.setFillsViewportHeight(true);
+		table_rank.setFont(new Font("Arial Narrow", Font.PLAIN, 15));
+		table_rank.setForeground(Color.WHITE);
+		table_rank.setBackground(Color.DARK_GRAY);
+		table_rank.setRequestFocusEnabled(false);
+		table_rank.setRowHeight(36);
+		table_rank.setModel(modelT);
+		table_rank.getColumnModel().getColumn(0).setResizable(false);
+		table_rank.getColumnModel().getColumn(0).setPreferredWidth(35);
+		table_rank.getColumnModel().getColumn(1).setResizable(false);
+		table_rank.getColumnModel().getColumn(1).setPreferredWidth(107);
+		table_rank.getColumnModel().getColumn(2).setResizable(false);
+		table_rank.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table_rank.getColumnModel().getColumn(3).setResizable(false);
+		table_rank.getColumnModel().getColumn(3).setPreferredWidth(50);
+		sp_right.setViewportView(table_rank);
 	}
 
 }

@@ -12,7 +12,7 @@ public class Character extends JComponent{
 	public static boolean isDummy, isAbilityOn, abilityAble = true;
 	public static long dummyBirth = Long.MAX_VALUE - 5000;
 	protected long abilityOn = Long.MAX_VALUE - 5000;
-	public static int char_x = 450, char_y = 350;						//화면 중앙 좌표. (전체 1000*800 에 wolf이미지 100*100 고려)
+	public static int char_x = 450, char_y = 350;						//화면 중앙 좌표. (전체 1000*800 에 Character이미지 100*100 고려)
 																		//캐릭터 좌표는 여기서 스태틱으로 관리함. 
 	public static int dummy_x = -200, dummy_y = -200;
 	public static int ability, life;
@@ -24,17 +24,43 @@ public class Character extends JComponent{
 	
 	public static void dummySwitch(){
 		if(isDummy){
+			isDummy = false;
+			isDummy = false;
+			isDummy = false;
+			char_x = dummy_x;
+			char_x = dummy_x;
 			char_x = dummy_x;
 			char_y = dummy_y;
+			char_y = dummy_y;
+			char_y = dummy_y;
+			dummy_x = -200;
+			dummy_x = -200;
 			dummy_x = -200;
 			dummy_y = -200;
+			dummy_y = -200;
+			dummy_y = -200;
 		}else {
-				dummy_x = char_x;
-				dummy_y = char_y;
-				char_x = -200;
-				char_y = -200;
+			isDummy = true;
+			isDummy = true;
+			isDummy = true;
+			dummy_x = char_x;
+			dummy_x = char_x;
+			dummy_x = char_x;
+			dummy_y = char_y;
+			dummy_y = char_y;
+			dummy_y = char_y;
+			char_x = -200;
+			char_x = -200;
+			char_x = -200;
+			char_y = -200;
+			char_y = -200;
+			char_y = -200;
 		}
 	}//dummySwitch()
+	
+	public static synchronized void dummyReleaseSwitch(){
+		
+	}
 	
 	public void playSE(String fileName) {
         try {

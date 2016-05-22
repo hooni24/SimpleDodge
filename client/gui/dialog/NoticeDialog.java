@@ -26,7 +26,7 @@ public class NoticeDialog extends JDialog implements ActionListener{
 	
 	public NoticeDialog(SelectWindow selectWindow) {
 		super(selectWindow, "공지사항", true);		//true이면 다이얼로그 처리 꼭 해야함. false이면 안해도 다른 창 사용 가능 ( modal )
-		setSize(486,347);
+		setSize(486,438);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		BorderLayout borderLayout = (BorderLayout) getContentPane().getLayout();
 		borderLayout.setVgap(30);
@@ -51,7 +51,9 @@ public class NoticeDialog extends JDialog implements ActionListener{
 						+ "- 랭킹 시스템 정렬 문제.\n"
 						+ "- 버그 악용시 계정삭제.\n"
 						+ "- 이게 뭐라고 ㅋ\n\n"
-						+ "기타 버그 제보 : D반 김성훈");
+						+ "- 당분간 업데이트는 없을 예정입니다\n"
+						+ "- 버그는 어쩔 수 없으니 즐기시길...\n\n"
+						+ "기타 버그 제보 : D반 김성훈 (하지마. 안고쳐.)");
 		panel_1 = new JPanel();
 		panel_1.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();

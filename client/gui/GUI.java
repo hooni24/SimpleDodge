@@ -26,7 +26,7 @@ import common.TransData;
 
 public class GUI extends JFrame implements Runnable, ActionListener{
 	private static final long serialVersionUID = 4655929275227340979L;
-	private Flame[] flameArray = new Flame[25];
+	private Flame[] flameArray = new Flame[30];
 	private int timer_sec, timer_dot;
 	private JLabel lbl_life, lbl_timer, lbl_ability;
 	private JButton cheat_life;
@@ -103,7 +103,7 @@ public class GUI extends JFrame implements Runnable, ActionListener{
 		setBackground(Color.BLACK);
 		setLocationRelativeTo(null);
 		
-//		new RankTable(this, ois, oos);
+		new RankTable(this, ois, oos);
 		setVisible(true);							//setVisible 전에 RankTable을 만들어야 활성화가 이쪽으로 옴
 		new Thread(this).start();					//플레이시간 체크를 위한 스레드 시작
 		
@@ -178,7 +178,7 @@ public class GUI extends JFrame implements Runnable, ActionListener{
 	
 	public void ghostGame(){
 		Character.ability = 2;
-		Character.life = 5000;
+		Character.life = 5;
 		ghost = new Ghost(this);
 		ghost.setBounds(0, 0, 1000, 800);
 		lp.add(ghost, new Integer(100));

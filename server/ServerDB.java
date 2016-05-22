@@ -12,7 +12,7 @@ public class ServerDB {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	private String url = "jdbc:oracle:thin:@203.233.196.232:1521:XE";
 	private Properties info;
 	
 	public void makeConnection(){
@@ -127,7 +127,7 @@ public class ServerDB {
 		UserInfo result = null;
 		try {
 			makeConnection();
-			String sql = "SELECT * FROM spacewar WHERE user_id = ?";
+			String sql = "SELECT user_id, user_pw, hi_score, user_char FROM spacewar WHERE user_id = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, user_id);
 			rs = pstmt.executeQuery();
@@ -136,13 +136,41 @@ public class ServerDB {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			closeAll();
 		}
 		return result;
 	}//searchInfo()
+	
+	public ArrayList<UserInfo> rankingReturn(){
+		ArrayList<UserInfo> result = new ArrayList<>();
+		try {
+			makeConnection();
+			String sql = "SELECT user_id, user_pw, hi_score, user_char FROM spacewar ORDER BY hi_score DESC, user_id";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			int cnt = 0;
+			while(rs.next()){
+				result.add(new UserInfo(rs.getString(1), rs.getString(2), Double.parseDouble(rs.getString(3)), rs.getString(4)));
+				cnt++;
+				if(cnt == 10) break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll();
+		}
+		
+		return result;
+	}
 
-	public static void main(String[] args) {
-		ServerDB d = new ServerDB();
-		System.out.println(d.searchInfo("fewf"));
-		System.out.println(d.getAllInfo());
-	}//main
+//	public static void main(String[] args) {
+//		ServerDB d = new ServerDB();
+//		ArrayList<UserInfo> fs = d.rankingReturn();
+//		
+//		for (UserInfo i : fs) {
+//			System.out.println(i);
+//		}
+//		
+//	}//main
 }//class

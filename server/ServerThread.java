@@ -44,6 +44,7 @@ public class ServerThread implements Runnable{
 						if(ServerGUI.db.searchInfo(data.getId()).getHi_score() < data.getHiScore()){		// 방금 들어온 버틴시간이 더 큰가 ?
 							ServerGUI.db.updateScore(data.getId(), String.valueOf(data.getHiScore()), data.getCharacterType());
 							gui.appendMsg(id + "님의 개인기록 경신! :" + data.getHiScore() + " with " + data.getCharacterType());
+							gui.rankSetModel();
 						}
 					break;
 				case TransData.TRY_LOG_IN:
@@ -74,10 +75,12 @@ public class ServerThread implements Runnable{
 					}else {
 						gui.appendMsg(client.getInetAddress() + "님. ID: " + id_sign + "로 회원가입!");
 						ServerGUI.db.insertInfo(data.getId(), data.getPw());		//db에 저장
+						gui.rankSetModel();
 						oos.writeObject(true);
 					}
 					break;
 				case TransData.TABLE_REFRESH:
+					oos.writeObject(gui.rankSetModel());
 					break;
 				case TransData.VERSION_CHEK:
 					if(data.getClientVersion() == RECENT_VERSION){

@@ -16,7 +16,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.TimeZone;
 
 import javax.swing.DefaultListModel;
@@ -40,33 +39,25 @@ import javax.swing.table.DefaultTableModel;
 
 public class ServerGUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 4176997584750967754L;
-	private JPanel contentPane;
-	private JPanel p_left;
-	private JPanel p_center;
-	private JPanel p_right;
+	private JPanel contentPane, p_left, p_center, p_right;
 	private JTextArea ta_left;
-	private JScrollPane sp_left;
+	private JScrollPane sp_left, sp_center, sp_right;
+	
 	private JList<String> list_user;
-	private JScrollPane sp_center;
-	private JScrollPane sp_right;
-	private JLabel lbl_user;
-	private JLabel lbl_console;
-	private JLabel lbl_rank;
-	private JPopupMenu popupMenu;
-	private JMenuItem mi_kick;
-	private JMenuItem mi_record;
-	private JSeparator separator;
 	private DefaultListModel<Object> model_user;
+	private JTable table_rank;
+	private DefaultTableModel modelT;
+	private Object[][] table_model = new Object[10][4];
+	private String[] columnNames;
+
+	private JLabel label, label_1, lbl_user, lbl_console, lbl_rank;
+	private JPopupMenu popupMenu;
+	private JMenuItem mi_kick, mi_record;
+	private JSeparator separator;
 	private ServerSocket server;
 	private Socket client;
-	public static ServerDB db = new ServerDB();
-	private JTable table_rank;
-	private Object[][] table_model = new Object[10][4];
-	private DefaultTableModel modelT;
 	private JPanel panel;
-	private JLabel label;
-	private JLabel label_1;
-	private String[] columnNames;
+	public static ServerDB db = new ServerDB();
 	
 
 
@@ -95,15 +86,6 @@ public class ServerGUI extends JFrame implements ActionListener{
 		lbl_console.setForeground(new Color(51, 255, 51));
 		lbl_console.setFont(new Font("Arial Narrow", Font.BOLD | Font.ITALIC, 12));
 		contentPane.add(lbl_console, BorderLayout.NORTH);
-
-		for(int i = 0; i < 10; i++){
-				table_model[i][0] = i+1;
-		}
-		
-		columnNames = new String[] {"순위", "ID", "기록", "캐릭터"};
-		
-		modelT = new DefaultTableModel(table_model, columnNames);
-		
 		lbl_rank = new JLabel("\u25B2 \u25B2 \u25B2 RANKING \u25B2 \u25B2 \u25B2            ");
 		lbl_rank.setVerticalAlignment(SwingConstants.TOP);
 		lbl_rank.setForeground(new Color(51, 255, 255));
@@ -197,23 +179,7 @@ public class ServerGUI extends JFrame implements ActionListener{
 		p_right.add(sp_right);
 		
 		table_rank = new JTable();
-		table_rank.setEnabled(false);
-		table_rank.setFillsViewportHeight(true);
-		table_rank.setFont(new Font("Arial Narrow", Font.PLAIN, 15));
-		table_rank.setForeground(Color.WHITE);
-		table_rank.setBackground(Color.DARK_GRAY);
-		table_rank.setRequestFocusEnabled(false);
-		table_rank.setRowHeight(36);
-		table_rank.setModel(modelT);
-		table_rank.getColumnModel().getColumn(0).setResizable(false);
-		table_rank.getColumnModel().getColumn(0).setPreferredWidth(35);
-		table_rank.getColumnModel().getColumn(1).setResizable(false);
-		table_rank.getColumnModel().getColumn(1).setPreferredWidth(107);
-		table_rank.getColumnModel().getColumn(2).setResizable(false);
-		table_rank.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table_rank.getColumnModel().getColumn(3).setResizable(false);
-		table_rank.getColumnModel().getColumn(3).setPreferredWidth(50);
-		sp_right.setViewportView(table_rank);
+		rankSetModel();
 		
 		model_user = new DefaultListModel<>();
 		
@@ -241,32 +207,48 @@ public class ServerGUI extends JFrame implements ActionListener{
 		list_user.setModel(model);
 	}
 	
-	public void rankSetModel(HashMap<String, Double> ranking, HashMap<String, String> characterType){
-		Object[] idSet = ranking.keySet().toArray();				//id랑 기록 묶인 맵
-		ArrayList<Double> scoreList = new ArrayList<>();
-		for(int i = 0; i < idSet.length; i++){						//id에 묶인 밸류인 기록을 어레이리스트화 시킴
-			scoreList.add(ranking.get(idSet[i]));
-			if(i == 9) break;										//10개만..
-		}
-		for(int i = 0; i < idSet.length; i++){						//10개 테이블모델에 세팅 함.
-			table_model[i][1] = idSet[i];
-			table_model[i][2] = scoreList.get(i);
-			if(i == 9) break;
-		}
+	public DefaultTableModel rankSetModel(){
+		ArrayList<UserInfo> result = db.rankingReturn();
+		columnNames = new String[] {"순위", "ID", "기록", "캐릭터"};		//컬럼명 세팅
+		for(int i = 0; i < 10; i++){
+			table_model[i][0] = i+1;
+		}//랭킹등수 세팅
 		
-		Object[] charSet = characterType.keySet().toArray();			//id랑 플레이한 캐릭터 묶인 맵 (이하 로직은 id랑 기록 저장하는거랑 같음)
-		ArrayList<String> charList = new ArrayList<>();
-		for(int i = 0; i < charSet.length; i++){
-			charList.add(characterType.get(charSet[i]));
-			if(i == 9) break;
-		}
-		for(int i = 0; i < charList.size(); i++){
-			table_model[i][3] = charList.get(i);
-			if(i == 9) break;
-		}
-		modelT.setDataVector(table_model, columnNames);
-		table_rank.setModel(modelT);								//세팅끝난 모델을 테이블에 적용시킴
-	}
+		for(int i = 0; i < result.size(); i ++){
+			for(int j = 0; j < 3; j++){
+				switch(j){
+				case 0:		table_model[i][j+1] = result.get(i).getUser_id();
+					break;
+				case 1:		table_model[i][j+1] = result.get(i).getHi_score();
+					break;
+				case 2:		table_model[i][j+1] = result.get(i).getUser_char();
+					break;
+				}//각각 테이블모델에 세팅하는 스위치문
+			}//유저인포에서 정보3개 꺼내는 내부포문
+		}//어레이리스트 1개씩 도는 외부포문
+		
+		modelT = new DefaultTableModel(table_model, columnNames);			//세팅된 값으로 디폴트테이블모델 생성
+		
+		table_rank.setEnabled(false);										//디폴트 테이블 모델을 JTable에 갖다 붙임
+		table_rank.setFillsViewportHeight(true);
+		table_rank.setFont(new Font("Arial Narrow", Font.PLAIN, 15));
+		table_rank.setForeground(Color.WHITE);
+		table_rank.setBackground(Color.DARK_GRAY);
+		table_rank.setRequestFocusEnabled(false);
+		table_rank.setRowHeight(36);
+		table_rank.setModel(modelT);
+		table_rank.getColumnModel().getColumn(0).setResizable(false);
+		table_rank.getColumnModel().getColumn(0).setPreferredWidth(35);
+		table_rank.getColumnModel().getColumn(1).setResizable(false);
+		table_rank.getColumnModel().getColumn(1).setPreferredWidth(107);
+		table_rank.getColumnModel().getColumn(2).setResizable(false);
+		table_rank.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table_rank.getColumnModel().getColumn(3).setResizable(false);
+		table_rank.getColumnModel().getColumn(3).setPreferredWidth(50);
+		sp_right.setViewportView(table_rank);
+		
+		return modelT;
+	}//rankSetModel()
 	
 	public String getTime(){
 		Calendar oCalendar = Calendar.getInstance( );
@@ -346,6 +328,7 @@ public class ServerGUI extends JFrame implements ActionListener{
 								model_user.addElement(id);
 							}
 							userSetModel(model_user);
+							rankSetModel();
 						}
 					}
 				}

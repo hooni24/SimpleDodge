@@ -115,8 +115,15 @@ public class ServerGUI extends JFrame implements ActionListener{
 		}else {
 			saveCharData();
 		}
+		System.out.println("Account");
+		System.out.println(accountMap);
+		System.out.println("Char");
+		System.out.println(characterMap);
+		System.out.println("Rank");
+		System.out.println(ranking);
 		drawGUI();
 		serverOpen();
+		
 	}
 	
 	public void drawGUI() {

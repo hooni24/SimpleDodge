@@ -82,9 +82,9 @@ public class ServerGUI extends JFrame implements ActionListener{
 	private File file_char = new File("C:/java/Data/Dodge/SaveFiles/CharData.ser");
 
 //		jar 버전
-//	private File file_user = new File("./Dodge/SaveFiles/UserData.ser");
-//	private File file_rank = new File("./Dodge/SaveFiles/RankData.ser");
-//	private File file_char = new File("./Dodge/SaveFiles/CharData.ser");
+//	private File file_user = new File("./saveData/UserData.ser");
+//	private File file_rank = new File("./saveData/RankData.ser");
+//	private File file_char = new File("./saveData/CharData.ser");
 	
 	public static HashMap<String, String> accountMap = new HashMap<>();			//ID / PW
 	public static HashMap<String, Double> ranking = new HashMap<>();			//ID / 최고 기록

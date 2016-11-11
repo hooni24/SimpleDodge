@@ -28,7 +28,7 @@ public class Chaser extends JComponent implements Runnable{
 	public void run() {
 		try {
 			while(true){
-				for(int i = 1; i < 19; i++){
+				for(int i = 1; i < 27; i++){
 
 //					eclipse 버전
 					chaserFile = new File("C:/java/Data/Dodge/Objects/Chaser/Chaser (" + i + ").png");

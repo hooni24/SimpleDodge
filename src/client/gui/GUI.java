@@ -22,7 +22,7 @@ import common.TransData;
 
 public class GUI extends JFrame implements Runnable{
 	private static final long serialVersionUID = 4655929275227340979L;
-	private FireBall[] fireBallArray = new FireBall[30];
+	private FireBall[] fireBallArray = new FireBall[20];
 	private int life, timer_sec, timer_dot;
 	private JLabel lbl_life, lbl_timer;
 	private ArrayList<Thread> thList = new ArrayList<>();
@@ -139,7 +139,7 @@ public class GUI extends JFrame implements Runnable{
 			}
 			
 			
-			if(startTime + 60000 <= System.currentTimeMillis() && startTime + 60100 >= System.currentTimeMillis()){
+			if(startTime + 30000 <= System.currentTimeMillis() && startTime + 30100 >= System.currentTimeMillis()){
 			Chaser chaser = new Chaser(this);							//Chaser객체 생성하고 lp위에 설치
 			chaser.setBounds(0, 0, 1000, 800);
 			lp.add(chaser, new Integer(4));
@@ -151,9 +151,9 @@ public class GUI extends JFrame implements Runnable{
 			
 			
 			
-			if(startTime + 30000 <= System.currentTimeMillis() && startTime + 30100 >= System.currentTimeMillis()
-					|| startTime + 35000 <= System.currentTimeMillis() && startTime + 35100 >= System.currentTimeMillis()
-					|| startTime + 40000 <= System.currentTimeMillis() && startTime + 40100 >= System.currentTimeMillis()){
+			if(startTime + 10000 <= System.currentTimeMillis() && startTime + 10100 >= System.currentTimeMillis()
+					|| startTime + 25000 <= System.currentTimeMillis() && startTime + 25100 >= System.currentTimeMillis()
+					|| startTime + 30000 <= System.currentTimeMillis() && startTime + 30100 >= System.currentTimeMillis()){
 				Wind wind = new Wind(this);							//Wind객체 생성하고 lp위에 설치
 				wind.setBounds(0, 0, 1000, 800);
 				lp.add(wind, new Integer(3));
